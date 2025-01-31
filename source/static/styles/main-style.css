@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+  --base-clr: #0d1b2a;
+  --light-base-clr: #1b263b;
+  --text-clr: #ffffff;
+  --base-font: 'Poppins', sans-serif;
+  --title-font-size: 5rem;
+  --title-font-weight: 700;
+  --slogan-font-size: 2rem;
+  --slogan-font-weight: 4300;
+  --name-font-size: 1.5rem;
+  --name-font-weight: 200;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+.home, .members, .member {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home {
+  height: 100vh;
+  width: 100%;
+  flex-direction: column;
+  gap: 20px;
+  background-color: var(--base-clr);
+}
+
+.home h1, .home h2, .home h3 {
+  font-family: var(--base-font);
+  color: var(--text-clr);
+}
+
+.home h1, .home h2 {
+  border-radius: 10px;
+  background-color: var(--light-base-clr);
+  padding: 0px 20px 0px 20px;
+}
+
+.home h1 {
+  font-size: var(--title-font-size);
+  font-weight: var(--title-font-weight);
+}
+
+.home h2 {
+  font-size: var(--slogan-font-size);
+  font-weight: var(--slogan-font-weight);
+}
+
+.home h3 {
+  font-size: var(--name-font-size);
+  font-weight: var(--name-font-weight);
+}
+
+.members {
+  gap: 50px;
+}
+
+.member {
+  flex-direction: column;
+  background-color: var(--light-base-clr);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.member img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}
