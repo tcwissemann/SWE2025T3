@@ -1,5 +1,126 @@
 {% extends "base.html" %} {% block title %} About Swapnil {% endblock %}
 
 {% block content %}
-<p>Swapnil's page</p>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+  --base-clr: #0d1b2a;
+  --light-base-clr: #1b263b;
+  --text-clr: #fff;
+  --base-font: 'Poppins', sans-serif;
+  --back-font-size: 2rem;
+  --back-font-weight: 500;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body, html {
+  height: 100%;
+}
+
+.about-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  background-color: var(--base-clr);
+  padding: 20px;
+  box-sizing: border-box;}
+
+.about-grid {
+  width: 100%;
+  max-width: 1200px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  gap: 20px;
+  margin: 0 auto;
+}
+
+.about-grid div {
+  background-color: var(--light-base-clr);
+  border-radius: 10px;
+  color: var(--text-clr);
+  font-family: var(--base-font);
+  font-weight: 300;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-grid div:nth-child(4) {
+  background-color: white;
+}
+
+.row-span-3 {
+  grid-row: span 3;
+}
+
+.col-span-3 {
+  grid-column: span 3;
+}
+
+.col-span-2 {
+  grid-column: span 2;
+}
+
+.profile {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.text {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.back-btn a {
+  background-color: var(--light-base-clr);
+  color: var(--text-clr);
+  text-decoration: none;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  font-size: var(--back-font-size);
+  font-weight: var(--back-font-weight);
+  cursor: pointer;
+  transition: 0.1s ease-in-out;
+}
+
+.back-btn a:hover {
+  background-color: var(--text-clr);
+  color: var(--base-clr);
+}
+</style>
+
+<div class="about-section">
+  <div class="about-grid">
+    <div class="back-btn col-span-3"><a href="../index.html">BACK</a></div>
+    <div class="image row-span-3"><img class="profile" src="../img/swapnil.png" alt="Swapnil Puri" title="Swapnil Puri"></div>
+    <div class="text col-span-2">
+      Hello! I'm Swapnil Puri, a computer science student at St. Edward's University. I have a passion for frontend development, particularly in designing visually engaging websites and implementing dynamic effects. I’ve worked with various libraries like Three.js and GSAP to create unique and interactive web experiences. Through this project, I aim to deepen my understanding of full-stack development and gain a stronger grasp of industry best practices, such as naming conventions, file organization standards, and specific software tools. I'm excited to collaborate on a web-related project and look forward to further honing my skills.
+    </div>
+    <div class="image yugioh"><img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Yu-Gi-Oh%21_%28Logo%29.jpg" alt="Yugioh Logo" title="Yugioh Logo"></div>
+    <div class="image"><img src="../img/ableton.jpg" alt="Ableton" title="Ableton"></div>
+    <div class="text">
+      Since childhood, I have enjoyed playing the Yu-Gi-Oh! trading card game. My passion for the game began after watching the anime. I especially love playing with the Mermail-Atlantean and Evil Eye decks.
+    </div>
+    <div class="text">
+      I have always had a deep connection to music, which sparked my passion for producing tracks using Ableton. This interest in music began at a young age when I learned to play several instruments, including the piano and cello.
+    </div>
+  </div>
+</div>
 {% endblock %}
