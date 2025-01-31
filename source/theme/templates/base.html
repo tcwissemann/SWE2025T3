@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>{% block title %}{% endblock %}</title>
+        <meta name="description" content="blah blah blah">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap 5 -->
+        {% load bootstrap5 %}
+        {% bootstrap_css %}
+        {% bootstrap_javascript %}
+        <!-- htmx -->
+        {% load static %}
+        <script src="{% static 'htmx.min.js' %}" defer></script>
+    </head>
+    <body>
+        {% block content %}
+        <!-- Content goes here -->
+        {% endblock %}
+    </body>
+</html>
