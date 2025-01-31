@@ -1,5 +1,26 @@
 {% extends "base.html" %} {% block title %} About Gavin {% endblock %}
 
 {% block content %}
-<p>Gavin's page</p>
+<link rel="stylesheet" href='{% static "styles/bio-styles.css" %}'>
+<div class="about-section">
+  <div class="about-grid">
+    <div class="back-btn col-span-3"><a href="../">BACK</a></div>
+    <div class="image row-span-3"><img class="profile" src="{% static 'images/gavin-bio-picture.jpg' %}" alt="" title=""></div>
+    <div class="text col-span-2">
+      Hi, my name is Gavin Klocke. 
+      I am a junior and a computer science major at St Edward's University. 
+      For the longest time, I have been rather unsure what to do in the field of computer science, but I believe web programming is the most promising option for me, and it feels great to be back coding in HTML/CSS again!
+    </div>
+    <div class="image"><img src="{% static 'images/gavin-ps4-interest' %}" alt="" title=""></div>
+    <div class="image"><img src="https://scitechinstitute.org/wp-content/uploads/2020/04/Scratch-001-e1587681148483.jpg" alt="" title=""></div>
+    <div class="text">
+      Other than riding my bike, playing video games on my PS4 is my main hobby when I am at home. 
+      It's a balance between Minecraft and Fortnite since I don't really play much other games, but it helps relieve stress after a heavy workload at college.
+    </div>
+    <div class="text">
+      I still do stuff on Scratch from time to time, and not because I haven't really got around to exploring other languages (I'm working on that!), but because it is relatively easy to use and be accessed by everybody. I've been doing this since the end of the 6th grade, and I continue to update the games I have made to this day!
+      <!-- I'll think about posting a link to my Scratch account if it is needed, but for the time being I don't really feel it should be included here at the moment. -->
+    </div>
+  </div>
+</div>
 {% endblock %}
