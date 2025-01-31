@@ -1,0 +1,24 @@
+{% extends "base.html" %} {% block title %} About Jocelyn {% endblock %}
+{% load static %}
+
+
+{% block content %}
+<link rel="stylesheet" href='{% static "styles/bio-styles.css" %}'>
+<div class="about-section">
+    <div class="about-grid">
+      <div class="back-btn col-span-3"><a href="../">BACK</a></div>
+      <div class="image row-span-3"><img class="profile" src="" alt="" title=""></div>
+      <div class="text col-span-2">
+        BIO INFO
+      </div>
+      <div class="image"><img src="{% static 'images/jocelyn-manga-interest.png' %}" alt="" title=""></div>
+      <div class="image"><img src="https://images.nintendolife.com/9c5459bc2814b/nso-snes-games-ranked-nintendo-life.original.jpg" alt="" title=""></div>
+      <div class="text">
+        Interest 1
+      </div>
+      <div class="text">
+        Interest 2
+      </div>
+    </div>
+  </div>
+{% endblock %}
