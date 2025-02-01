@@ -53,11 +53,7 @@
     justify-content: center;
     align-items: center;
   }
-  
-  .about-grid div:nth-child(4) {
-    background-color: white;
-  }
-  
+
   .row-span-3 {
     grid-row: span 3;
   }
