@@ -1,5 +1,26 @@
-{% extends "base.html" %} {% block title %} About Thomas {% endblock %}
+{% extends "base.html" %} {% block title %} About Jocelyn {% endblock %}
+{% load static %}
+
 
 {% block content %}
-<p>Thomas's page</p>
+<link rel="stylesheet" href='{% static "styles/bio-styles.css" %}'>
+<div class="about-section">
+    <div class="about-grid">
+      <div class="back-btn col-span-3"><a href="../">BACK</a></div>
+      <div class="image row-span-3"><img class="profile" src="{% static 'images/thomas-bio-pic.webp' %}" alt="photo" title="Thomas Wissemann"></div>
+      <div class="text col-span-2">
+        Hi, I'm Thomas Wissemann. I'm a junior at St. Edward's University currently studying Computer Science.
+        I have experience working with web technologies before but I'm excited to learn more about full-stack development.
+        I look forward to working with a team to create a project that will be used by others.
+      </div>
+      <div class="image"><img src="{% static 'images/thomas-guitar.webp' %}" alt="photo" title="jazz guitar"></div>
+      <div class="image"><img src="https://texashighways.com/wp-content/uploads/2017/09/images_LostTrail-Hike-1017.jpg" alt="photo" title="hiking"></div>
+      <div class="text">
+        Prior to attending St. Edward's, I was a Jazz major at the University of North Texas. I enjoy playing with friends, and gigging around Austin.
+      </div>
+      <div class="text">
+        When I'm not working or studying, I love to go hiking with friends. I've been to many of the trails around the greater Austin area and I'm always looking for new ones to explore.
+      </div>
+    </div>
+  </div>
 {% endblock %}
