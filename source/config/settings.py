@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'theme',
     'bootstrap5',
     'django_htmx',
+    'users',
+    'products',
+    'orders'
 ]
 
 MIDDLEWARE = [
