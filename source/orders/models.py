@@ -15,7 +15,7 @@ class CartItem(models.Model):
         verbose_name_plural = ("CartItems")
 
     def __str__(self):
-        return self.name
+        return f"{self.user.username} | {self.quantity} | {self.product}"
 
     def get_absolute_url(self):
         return reversed("CartItem_detail", kwargs={"pk": self.pk})
@@ -35,7 +35,7 @@ class Order(models.Model):
         verbose_name_plural = ("Orders")
 
     def __str__(self):
-        return self.name
+        return f"{self.user.username} | {self.date}"
 
     def get_absolute_url(self):
         return reversed("Order_detail", kwargs={"pk": self.pk})
@@ -54,7 +54,7 @@ class OrderItem(models.Model):
         verbose_name_plural = ("OrderItems")
 
     def __str__(self):
-        return self.name
+        return f"{self.user} | {self.quantity} | {self.product}"
 
     def get_absolute_url(self):
         return reversed("OrderItem_detail", kwargs={"pk": self.pk})
