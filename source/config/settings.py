@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django_htmx',
     'users',
     'products',
-    'orders'
+    'orders',
+    'mainpage'
 ]
 
 MIDDLEWARE = [
@@ -137,10 +138,11 @@ USE_TZ = True
 
 
 
-# STATICFILES_DIRS = [
-#     BASE_DIR / 'static',
-#     BASE_DIR / 'static/images',
-# ]
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+    BASE_DIR / 'static/images',
+    BASE_DIR / 'static/styles',
+]
 
 STATIC_URL = 'static/'
 

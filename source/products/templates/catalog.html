@@ -1,0 +1,78 @@
+{% extends "base.html" %} {% block title %} Catalog {% endblock %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href='{% static "styles/website-theme.css" %}' type="text/css">
+<link rel="stylesheet" href='{% static "styles/catalog.css" %}' type="text/css">
+<link rel="stylesheet" href='{% static "styles/product-detail.css" %}' type="text/css">
+
+  <section class="container mt-5 pt-5">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-md-3 mb-3 rounded sidebar">
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select id="category" class="form-control">
+            <option value="all">All</option>
+            <option value="shirts">Shirts</option>
+            <option value="stickers">Stickers</option>
+            <option value="mugs">Mugs</option>
+            <option value="cards">Cards</option>
+            <option value="phone-cases">Phone Cases</option>
+            <option value="pillows">Pillows</option>
+            <option value="journals">Journals</option>
+            <option value="backpacks">Backpacks</option>
+            <option value="posters">Posters</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="priceRange">Price Range</label>
+          <div class="d-flex">
+            <input type="number" id="min_price" class="form-control mr-2" placeholder="Min">
+            <input type="number" id="max_price" class="form-control" placeholder="Max">
+          </div>
+        </div>
+        <button type="submit" class="btn custom-button dark w-100">Search</button>
+      </div>
+
+      <!-- Product Grid (REPLACE WITH DATABASE ITEMS)-->
+      <div class="col-md-9 product-grid">
+        <h1 class="page-title mb-3 rounded">Catalog</h1>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <div class="card">
+              <a href="/product"><img src="" class="card-img-top" alt=""></a>
+              <div class="card-body">
+                <h5 class="card-title">Product 1</h5>
+                <p class="card-text">$12.00</p>
+                <a href="" class="btn custom-button mini">View Item</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="card">
+              <a href=""><img src="" class="card-img-top" alt=""></a>
+              <div class="card-body">
+                <h5 class="card-title">Product 2</h5>
+                <p class="card-text">$24.99</p>
+                <a href="" class="btn custom-button mini">View Item</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3">
+            <div class="card">
+              <a href=""><img src="" class="card-img-top" alt=""></a>
+              <div class="card-body">
+                <h5 class="card-title">Product 3</h5>
+                <p class="card-text">$17.64</p>
+                <a href="" class="btn custom-button mini">View Item</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+{% endblock %}

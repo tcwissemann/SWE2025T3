@@ -1,0 +1,62 @@
+{% extends "base.html" %} {% block title %} Product Detail {% endblock %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href='{% static "styles/website-theme.css" %}' type="text/css">
+<link rel="stylesheet" href='{% static "styles/catalog.css" %}' type="text/css">
+<link rel="stylesheet" href='{% static "styles/product-detail.css" %}' type="text/css">
+
+
+  <!-- Product Detail Section (REPLACE WITH PRODUCT DETAILS)-->
+  <section class="container pt-5">
+    <div class="container mt-5 pt-5 mb-5 pb-5 product-detail rounded">
+      <a href="" class="btn custom-button ml-5 pl-2 pr-2 pt-1 pb-1">BACK</a>
+      <div class="row">
+        <!-- Product Image -->
+        <div class="col-md-6 pl-5 product-image">
+          <img src="" class="img-fluid rounded expanded-img" alt="">
+        </div>
+
+        <!-- Product Customization Options -->
+        <div class="col-md-6 pr-5 product-customization">
+          <h1 class="featured-product-heading">Product Name</h1>
+          <h3 class="product-cost">$99.99</h3>
+
+          <!-- Color Options -->
+          <div class="color-btns">
+            <input type="radio" name="color" value="red" class="red">
+            <input type="radio" name="color" value="blue" class="blue">
+            <input type="radio" name="color" value="yellow" class="yellow">
+            <input type="radio" name="color" value="green" class="green">
+            <input type="radio" name="color" value="purple" class="purple">
+          </div>
+
+          <!-- Size Options -->
+          <div class="size-btns">
+            <input type="radio" name="size" value="S" class="small">
+            <input type="radio" name="size" value="M" class="medium">
+            <input type="radio" name="size" value="L" class="large">
+            <input type="radio" name="size" value="XL" class="extra-large">
+            <input type="radio" name="size" value="XXL" class="extra-extra-large">
+          </div>
+
+          <!-- Product Description -->
+          <p class="product-description">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi justo justo, vestibulum vitae tempus et,
+            maximus quis est. Morbi porttitor lorem nulla, ut auctor mi sodales id.
+          </p>
+
+          <!-- Image Upload -->
+          <div class="mt-2 mb-2">
+            <label for="imageUpload" class="btn custom-button mini dark">Upload Image</label>
+            <input type="file" id="imageUpload" accept="image/*" style="display:none;" onchange="previewImage(event)">
+          </div>
+
+          <!-- Add to Order Button -->
+          <button class="btn custom-button">Add to Order</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

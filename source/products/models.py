@@ -22,7 +22,6 @@ class ProductTemplate(models.Model):
     sku = models.CharField(max_length=10)
     pricePerUnit = models.IntegerField() # Saved as Integer, formatted as float '.2f' on frontend
     attributes = models.JSONField() #different items may have different attributes
-    #TODO: Discuss attributes on meeting today 2/11
     imageURL = models.URLField()
     printableHeight = models.IntegerField() #in inches
     printableWidth = models.IntegerField() #in inches

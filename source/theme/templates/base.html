@@ -6,16 +6,89 @@
         <title>{% block title %}{% endblock %}</title>
         <meta name="description" content="blah blah blah">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        
         <!-- Bootstrap 5 -->
         {% load bootstrap5 %}
         {% bootstrap_css %}
         {% bootstrap_javascript %}
         <!-- htmx -->
         {% load static %}
+        <link rel="icon" type="image/x-icon" href='{% static "favicon.ico" %}'>
         <script src="{% static 'htmx.min.js' %}" defer></script>
     </head>
     <body>
+        <link rel="stylesheet" href='{% static "styles/website-theme.css" %}' type="text/css">
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <!-- NEW LINK -->
+      <a class="navbar-brand" href="/">PurpleBubble</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <!-- NEW LINK -->
+            <a class="nav-link" href="/shop">Catalog</a>
+          </li>
+          <li class="nav-item">
+            <!-- NEW LINK -->
+            <a class="nav-link" href="/about">About Us</a>
+          </li>
+          <li class="nav-item">
+            <!-- NEW LINK -->
+            <a class="nav-link" href="">Login</a>
+          </li>
+          <li class="nav-item">
+            <!-- NEW LINK -->
+            <a class="nav-link" href=""><i class="fa-solid fa-cart-shopping"></i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+</nav>
         {% block content %}
         {% endblock %}
+        <!-- Footer -->
+  <footer class="footer pt-5 pb-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h5 class="footer-heading">PurpleBubble</h5>
+          <p>Express your creativity with our high-quality, customizable products. We believe in giving back and
+            supporting the creative community.</p>
+        </div>
+        <div class="col-md-4">
+          <h5 class="footer-heading">Quick Links</h5>
+          <ul class="list-unstyled">
+            <!-- NEW LINK -->
+            <li><a href="" class="text-white">Catalog</a></li>
+            <!-- NEW LINK -->
+            <li><a href="" class="text-white">About Us</a></li>
+            <!-- NEW LINK -->
+            <li><a href="" class="text-white">Login</a></li>
+            <!-- NEW LINK -->
+            <li><a href="" class="text-white">Cart</a></li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h5 class="footer-heading">Social</h5>
+          <ul class="list-unstyled d-flex">
+            <!-- KEEP EMPTY, NO SOCIAL MEDIA -->
+            <li><a href="" class="text-white mr-3"><i class="fa-brands fa-facebook"></i></a></li>
+            <li><a href="" class="text-white mr-3"><i class="fa-brands fa-twitter"></i></a></li>
+            <li><a href="" class="text-white mr-3"><i class="fa-brands fa-instagram"></i></a></li>
+            <li><a href="" class="text-white mr-3"><i class="fa-brands fa-pinterest"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col text-center">
+          <p>&copy; 2025 PurpleBubble. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
     </body>
 </html>
