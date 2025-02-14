@@ -39,6 +39,8 @@ section.container {
   color: var(--secondary-font-clr);
   padding-left: 10px;
   padding-right: 10px;
+  text-decoration: none;
+  height: 100%;
 }
 
 .navbar-brand {
@@ -175,6 +177,15 @@ section.container {
 
 .footer .fa {
   font-size: 1.5rem;
+}
+
+footer a, nav a {
+  color: white;
+  transition: 0.15s ease-in-out;
+}
+
+footer a:hover, nav a:hover {
+  color: var(--accent-highlight-clr);
 }
 
 .card {
