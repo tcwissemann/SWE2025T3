@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Env file for production (contains secret key)
 env = environ.Env(
     DEBUG=(bool, False),
-    DB_PASSWORD=(str, 'thisisnotthedbpassword')
+    DB_PASSWORD=(str, 'thisisnotthedbpassword'),
     SECRET_KEY=(str, 'django-insecure-12lan%j++kzuch37+z@j_vz95g8bo4$+#h_8t781cqicr-1y)1')
 )
 
