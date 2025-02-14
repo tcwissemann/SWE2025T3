@@ -3,69 +3,87 @@ from users.models import User
 
 # Create your models here.
 
-class ProductType(models.Model):
-    sku = models.CharField(max_length=10)
-    name = models.CharField(max_length=254)
-
-    class Meta:
-        verbose_name = ("ProductType")
-        verbose_name_plural = ("ProductTypes")
-
-    def __str__(self):
-        return f"SKU{self.sku} | {self.name}"
-
-    def get_absolute_url(self):
-        return reversed("ProductType_detail", kwargs={"pk": self.pk})
-
-class ProductTemplate(models.Model):
-    productType = models.ForeignKey(ProductType, on_delete=models.CASCADE)
-    sku = models.CharField(max_length=10)
-    pricePerUnit = models.IntegerField() # Saved as Integer, formatted as float '.2f' on frontend
-    attributes = models.JSONField() #different items may have different attributes
+class Product(models.Model):
+    sku = models.CharField(max_length=4, primary_key=True)
+    name = models.CharField(max_length=50)
     imageURL = models.URLField()
-    printableHeight = models.IntegerField() #in inches
-    printableWidth = models.IntegerField() #in inches
-    
+    price = models.IntegerField()
+
     class Meta:
-        verbose_name = ("ProductTemplate")
-        verbose_name_plural = ("ProductTemplates")
+        verbose_name = "Product"
+        verbose_name_plural = "Products"
 
     def __str__(self):
-        return f"{self.productType.name} | {self.sku} @ {(self.pricePerUnit/100):.2f}"
+        return f"SKU {self.sku} | {self.name}"
 
     def get_absolute_url(self):
-        return reversed("ProductTemplate_detail", kwargs={"pk": self.pk})
+        return reversed("Product_detail", kwargs={"pk": self.pk})
+
 
 class Design(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
     image = models.URLField()
+    dateUploaded = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     class Meta:
-        verbose_name = ("Design")
-        verbose_name_plural = ("Designs")
+        verbose_name = "Design"
+        verbose_name_plural = "Designs"
 
     def __str__(self):
-        return f"{self.user.username} | {self.image}"
+        return f"{self.user.username} | {self.name} | {self.dateUploaded}"
 
     def get_absolute_url(self):
         return reversed("Design_detail", kwargs={"pk": self.pk})
     
-class Product(models.Model):
-
-    design = models.ForeignKey(Design, on_delete=models.CASCADE)
-    productTemplate = models.ForeignKey(ProductTemplate, on_delete=models.CASCADE)
-    designWidth = models.IntegerField()
-    designHeight = models.IntegerField()
-    designPosX = models.IntegerField() # 0 to 100 as a percentage of the total printable area
-    designPosY = models.IntegerField() # 0 to 100 as a percentage of the total printable area
+class Color(models.Model):
+    hexValue = models.CharField(max_length=6)
+    name = models.CharField(max_length=20)
 
     class Meta:
-        verbose_name = ("Product")
-        verbose_name_plural = ("Products")
+        verbose_name = "Color"
+        verbose_name_plural = "Colors"
 
     def __str__(self):
-        return f"{self.productTemplate.productType.name} | {self.design}"
+        return f"#{self.hexValue.upper()} | {self.name}"
 
     def get_absolute_url(self):
-        return reversed("Product_detail", kwargs={"pk": self.pk})
+        return reversed("Color_detail", kwargs={"pk": self.pk})
+
+    
+class Size(models.Model):
+    productType = models.ForeignKey(Product, on_delete=models.CASCADE)
+    name = models.CharField(max_length=10)
+    printableWidth = models.IntegerField()
+    printableHeight = models.IntegerField()
+
+    class Meta:
+        verbose_name = "Size"
+        verbose_name_plural = "Sizes"
+
+    def __str__(self):
+        return f"{self.productType.name} | {self.name}"
+
+    def get_absolute_url(self):
+        return reversed("Size_detail", kwargs={"pk": self.pk})
+
+
+class DesignedProduct(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    design = models.ForeignKey(Design, on_delete=models.CASCADE)
+    color = models.ForeignKey(Color, on_delete=models.CASCADE)
+    size = models.ForeignKey(Size, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "DesignedProduct"
+        verbose_name_plural = "DesignedProducts"
+
+    def __str__(self):
+        return f"{self.user} | {self.color.name} {self.size.name} {self.product.name} | {self.design.name}"
+
+    def get_absolute_url(self):
+        return reversed("DesignedProduct_detail", kwargs={"pk": self.pk})
+    
+
 
