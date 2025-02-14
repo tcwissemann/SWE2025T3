@@ -12,19 +12,29 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+import environ
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Env file for production (contains secret key)
+env = environ.Env(
+    DEBUG=(bool, False),
+    SECRET_KEY=(str, 'django-insecure-12lan%j++kzuch37+z@j_vz95g8bo4$+#h_8t781cqicr-1y)1')
+)
+
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-12lan%j++kzuch37+z@j_vz95g8bo4$+#h_8t781cqicr-1y)1'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env("DEBUG")
 
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env("SECRET_KEY")
+
+# allows droplet ip & localhost ip
 ALLOWED_HOSTS = ['134.122.122.129', 'localhost', '127.0.0.1']
 
 # Application definition
@@ -95,13 +105,13 @@ else:
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': 'swe2025t3',
             'USER': 'swe2025t3',
-            'PASSWORD': 'SWE2025T3',
+            'PASSWORD': env("DB_PASSWORD"),
             'HOST': 'localhost',
             'PORT': '',
         }
     }
-# PostgreSQL Database for production
 
+# PostgreSQL Database for production
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
