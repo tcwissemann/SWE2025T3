@@ -134,3 +134,38 @@ input[type="radio"].purple:checked {
 a.btn.custom-button {
   border-radius: 0px;
 }
+
+.quantity-heading {
+  top: 50%; 
+  left: 10px; 
+  transform: translateY(-50%); 
+  color: white;
+  border-radius: 50px;
+}
+
+.form-control {
+  color: var(--secondary-font-clr);
+  background-color: var(--accent-clr);
+  border: none;
+  width: 50px;
+  border-radius: 50px;
+}
+
+.form-control:focus {
+  color: var(--secondary-font-clr);
+  background-color: var(--accent-clr);
+  border: none;
+}
+
+#quantity {
+  -webkit-appearance: none; 
+  -moz-appearance: textfield;
+  appearance: none;
+  text-align: center; 
+}
+
+#quantity::-webkit-outer-spin-button,
+#quantity::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
