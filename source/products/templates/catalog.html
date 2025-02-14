@@ -8,10 +8,10 @@
   <section class="container mt-5 pt-5">
     <div class="row">
       <!-- Sidebar -->
-      <div class="col-md-3 mb-3 rounded sidebar">
+      <form method="get" class="col-md-3 mb-3 rounded sidebar">
         <div class="mb-3">
           <label for="category">Category</label>
-          <select id="category" class="form-select">
+          <select id="category" name="category" class="form-select">
             <option value="all">All</option>
             <option value="shirts">Shirts</option>
             <option value="stickers">Stickers</option>
@@ -27,12 +27,12 @@
         <div class="mb-3">
           <label for="priceRange">Price Range</label>
           <div class="d-flex">
-            <input type="number" id="min_price" class="form-control me-2" placeholder="Min"  min="0" oninput="updateMax()">
-            <input type="number" id="max_price" class="form-control" placeholder="Max" min="0" oninput="updateMin()">
+            <input type="number" name="min_price" id="min_price" class="form-control me-2" placeholder="Min" min="0" max="99" oninput="updateMax()">
+            <input type="number" name="max_price" id="max_price" class="form-control" placeholder="Max" min="0" max="99" oninput="updateMin()">
           </div>
         </div>
         <button type="submit" class="btn custom-button dark w-100">Search</button>
-      </div>
+      </form>
       <!-- Product Grid (REPLACE WITH DATABASE ITEMS)-->
       <div class="col-md-9 product-grid">
         <h1 class="page-title mb-3 rounded">Catalog</h1>
@@ -53,7 +53,7 @@
               <div class="card-body">
                 <h5 class="card-title">Product 2</h5>
                 <p class="card-text">$24.99</p>
-                <a href="/shop/product/" class="btn rounded custom-button mini">View Item</a>
+                <a href="/shop/product/" class="btn custom-button mini">View Item</a>
               </div>
             </div>
           </div>
@@ -72,6 +72,26 @@
     </div>
   </section>
   <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category');
+    const minPrice = urlParams.get('min_price');
+    const maxPrice = urlParams.get('max_price');
+    const categorySelect = document.querySelector('#category');
+    const minPriceSelect = document.querySelector('#min_price');
+    const maxPriceSelect = document.querySelector('#max_price');
+  
+    if (category) {
+      categorySelect.value = category;
+    }
+    if (minPrice) {
+      if (!maxPrice) maxPriceSelect.value = 99;
+      minPriceSelect.value = minPrice;
+    }
+    if (maxPrice) {
+      if (!minPrice) minPriceSelect.value = 0;
+      maxPriceSelect.value = maxPrice;
+    }
+
     function updateMax() {
       const minPrice = document.getElementById('min_price').value;
       document.getElementById('max_price').min = minPrice ? Number(minPrice) + 1 : 0;
