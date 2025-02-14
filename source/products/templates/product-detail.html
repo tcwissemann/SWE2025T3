@@ -10,15 +10,15 @@
   <!-- Product Detail Section (REPLACE WITH PRODUCT DETAILS)-->
   <section class="container pt-5">
     <div class="container mt-5 pt-5 mb-5 pb-5 product-detail rounded">
-      <a href="" class="btn custom-button ml-5 pl-2 pr-2 pt-1 pb-1">BACK</a>
+      <a href="/shop" class="btn custom-button ms-5 ps-2 pe-2 pt-1 pb-1">BACK</a>
       <div class="row">
         <!-- Product Image -->
-        <div class="col-md-6 pl-5 product-image">
+        <div class="col-md-6 ps-5 product-image">
           <img src="" class="img-fluid rounded expanded-img" alt="">
         </div>
 
         <!-- Product Customization Options -->
-        <div class="col-md-6 pr-5 product-customization">
+        <div class="col-md-6 pe-5 product-customization">
           <h1 class="featured-product-heading">Product Name</h1>
           <h3 class="product-cost">$99.99</h3>
 
@@ -39,7 +39,7 @@
             <input type="radio" name="size" value="XL" class="extra-large">
             <input type="radio" name="size" value="XXL" class="extra-extra-large">
           </div>
-
+          
           <!-- Product Description -->
           <p class="product-description">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi justo justo, vestibulum vitae tempus et,
@@ -47,10 +47,22 @@
           </p>
 
           <!-- Image Upload -->
-          <div class="mt-2 mb-2">
+          <div class="my-2">
             <label for="imageUpload" class="btn custom-button mini dark">Upload Image</label>
             <input type="file" id="imageUpload" accept="image/*" style="display:none;" onchange="previewImage(event)">
           </div>
+
+          <!-- Quantity -->
+          <div class="my-3">
+            <div class="d-flex align-items-center position-relative">
+              <input class="form-control py-2 me-2" style="padding-left: 80px;">
+              <div class="quantity-heading position-absolute">
+                Quantity:
+              </div>
+              <input type="number" id="quantity" class="form-control py-2" value="1" onblur="validateQuantity()">
+            </div>
+          </div>
+
 
           <!-- Add to Order Button -->
           <button class="btn custom-button">Add to Order</button>
@@ -58,5 +70,18 @@
       </div>
     </div>
   </section>
+  <script>
+    function validateQuantity() {
+      const quantityInput = document.querySelector('#quantity');
+      const quantityValue = Number(quantityInput.value);
+
+      if (quantityValue < 1 || !Number.isInteger(quantityValue)) {
+        quantityInput.value = 1;
+      }
+      if (quantityValue > 99) {
+        quantityInput.value = 99;
+      }
+    }
+  </script>
 
 {% endblock %}
