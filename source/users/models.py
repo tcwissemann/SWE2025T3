@@ -9,7 +9,7 @@ class User(models.Model):
     passwordHash = models.CharField(max_length=254) # Hashed using Argon2 algorithm
     phoneNumberPrefix = models.IntegerField() # Ex: +1 -> US, +505 -> Nicaragua
     phoneNumber = models.CharField(max_length=10) # No parenthesis or dashes included
-    
+
     class Meta:
         verbose_name = ("User")
         verbose_name_plural = ("Users")
