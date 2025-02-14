@@ -10,9 +10,9 @@
     <div class="row">
       <!-- Sidebar -->
       <div class="col-md-3 mb-3 rounded sidebar">
-        <div class="form-group">
+        <div class="mb-3">
           <label for="category">Category</label>
-          <select id="category" class="form-control">
+          <select id="category" class="form-select">
             <option value="all">All</option>
             <option value="shirts">Shirts</option>
             <option value="stickers">Stickers</option>
@@ -25,47 +25,46 @@
             <option value="posters">Posters</option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <label for="priceRange">Price Range</label>
           <div class="d-flex">
-            <input type="number" id="min_price" class="form-control mr-2" placeholder="Min">
-            <input type="number" id="max_price" class="form-control" placeholder="Max">
+            <input type="number" id="min_price" class="form-control me-2" placeholder="Min"  min="0" oninput="updateMax()">
+            <input type="number" id="max_price" class="form-control" placeholder="Max" min="0" oninput="updateMin()">
           </div>
         </div>
         <button type="submit" class="btn custom-button dark w-100">Search</button>
       </div>
-
       <!-- Product Grid (REPLACE WITH DATABASE ITEMS)-->
       <div class="col-md-9 product-grid">
         <h1 class="page-title mb-3 rounded">Catalog</h1>
         <div class="row">
           <div class="col-md-4 mb-3">
             <div class="card">
-              <a href="/product"><img src="" class="card-img-top" alt=""></a>
+              <a href="/shop/product/"><img src="" class="card-img-top" alt=""></a>
               <div class="card-body">
                 <h5 class="card-title">Product 1</h5>
                 <p class="card-text">$12.00</p>
-                <a href="" class="btn custom-button mini">View Item</a>
+                <a href="/shop/product/" class="btn custom-button mini">View Item</a>
               </div>
             </div>
           </div>
           <div class="col-md-4 mb-3">
             <div class="card">
-              <a href=""><img src="" class="card-img-top" alt=""></a>
+              <a href="/shop/product/"><img src="" class="card-img-top" alt=""></a>
               <div class="card-body">
                 <h5 class="card-title">Product 2</h5>
                 <p class="card-text">$24.99</p>
-                <a href="" class="btn custom-button mini">View Item</a>
+                <a href="/shop/product/" class="btn rounded custom-button mini">View Item</a>
               </div>
             </div>
           </div>
           <div class="col-md-4 mb-3">
             <div class="card">
-              <a href=""><img src="" class="card-img-top" alt=""></a>
+              <a href="/shop/product/"><img src="" class="card-img-top" alt=""></a>
               <div class="card-body">
                 <h5 class="card-title">Product 3</h5>
                 <p class="card-text">$17.64</p>
-                <a href="" class="btn custom-button mini">View Item</a>
+                <a href="/shop/product/" class="btn custom-button mini">View Item</a>
               </div>
             </div>
           </div>
@@ -73,6 +72,16 @@
       </div>
     </div>
   </section>
-
+  <script>
+    function updateMax() {
+      const minPrice = document.getElementById('min_price').value;
+      document.getElementById('max_price').min = minPrice ? Number(minPrice) + 1 : 0;
+    }
+  
+    function updateMin() {
+      const maxPrice = document.getElementById('max_price').value;
+      document.getElementById('min_price').max = maxPrice ? Number(maxPrice) - 1 : Infinity;
+    }
+  </script>
   
 {% endblock %}
