@@ -1,0 +1,171 @@
+:root {
+  --red-clr: #c1121f;
+  --blue-clr: #3a86ff;
+  --yellow-clr: #ffd60a;
+  --green-clr: #52b788;
+  --purple-clr: #9b5de5;
+  --dark-red-clr: #730b12;
+  --dark-blue-clr: #245097;
+  --dark-yellow-clr: #9c8408;
+  --dark-green-clr: #326e52;
+  --dark-purple-clr: #55327f;
+}
+
+input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin: 5px;
+  position: relative;
+  transition: background-color 0.15s;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+input[type="radio"]:checked::after {
+  content: '✔'; 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--secondary-font-clr);
+}
+
+input[name="size"] {
+  background-color: var(--main-bkg-clr);
+  border-radius: 5px;
+  color: var(--main-font-clr);
+}
+
+input[name="size"]:checked {
+  background-color: var(--secondary-bkg-clr);
+  color: var(--secondary-font-clr);
+}
+
+input[name="size"]::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+input[name="size"].small::after {
+  content: 'S';
+}
+
+input[name="size"].medium::after {
+  content: 'M';
+}
+
+input[name="size"].large::after {
+  content: 'L';
+}
+
+input[name="size"].extra-large::after {
+  content: 'XL';
+}
+
+input[name="size"].extra-extra-large::after {
+  content: 'XXL';
+}
+
+input[type="radio"].red {
+  background-color: var(--red-clr);
+}
+
+input[type="radio"].blue {
+  background-color: var(--blue-clr);
+}
+
+input[type="radio"].yellow {
+  background-color: var(--yellow-clr);
+}
+
+input[type="radio"].green {
+  background-color: var(--green-clr);
+}
+
+input[type="radio"].purple {
+  background-color: var(--purple-clr);
+}
+
+input[type="radio"].red:checked {
+  background-color: var(--dark-red-clr);
+}
+
+input[type="radio"].blue:checked {
+  background-color: var(--dark-blue-clr);
+}
+
+input[type="radio"].yellow:checked {
+  background-color: var(--dark-yellow-clr);
+}
+
+input[type="radio"].green:checked {
+  background-color: var(--dark-green-clr);
+
+}
+
+input[type="radio"].purple:checked {
+  background-color: var(--dark-purple-clr);
+}
+
+.custom-button.mini.dark {
+  background-color: var(--secondary-font-clr);
+  color: var(--accent-clr);
+  font-size: 16px;
+}
+
+.product-detail {
+  background-color: var(--accent-dark-clr);
+  border: 4px solid var(--accent-clr);
+}
+
+.expanded-img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  border: 4px solid var(--accent-clr);
+}
+
+a.btn.custom-button {
+  border-radius: 0px;
+}
+
+.quantity-heading {
+  top: 50%; 
+  left: 10px; 
+  transform: translateY(-50%); 
+  color: white;
+  border-radius: 50px;
+}
+
+.form-control {
+  color: var(--secondary-font-clr);
+  background-color: var(--accent-clr);
+  border: none;
+  width: 50px;
+  border-radius: 50px;
+}
+
+.form-control:focus {
+  color: var(--secondary-font-clr);
+  background-color: var(--accent-clr);
+  border: none;
+}
+
+#quantity {
+  -webkit-appearance: none; 
+  -moz-appearance: textfield;
+  appearance: none;
+  text-align: center; 
+}
+
+#quantity::-webkit-outer-spin-button,
+#quantity::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

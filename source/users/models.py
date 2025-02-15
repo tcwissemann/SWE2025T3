@@ -29,7 +29,7 @@ class Address(models.Model):
     city = models.CharField(max_length=254)
     state = models.CharField(max_length=254)
     zipCode = models.CharField(max_length=10) # XXXXX[-XXXX] zipCode length = 5 + extended 4 digits.
-    
+
     class Meta:
         verbose_name = ("Address")
         verbose_name_plural = ("Addresses")

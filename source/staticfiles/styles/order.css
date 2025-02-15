@@ -1,0 +1,36 @@
+body {
+  color: white;
+}
+
+.order-img {
+  width: 80px;
+}
+
+.order-row, .total-row {
+  background-color: var(--accent-dark-clr);
+  border: 4px solid var(--accent-clr);
+}
+
+.product-name, .product-attribute.price {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.product-attribute:not(.product-attribute.price) {
+  font-size: 1rem;
+  font-weight: 300;
+  background-color: var(--accent-clr);
+  padding: 0px 5px;
+}
+
+.quantity-change {
+  color: white;
+}
+
+.quantity-change:hover:last-child {
+  color: var(--green-clr);
+}
+
+.quantity-change:hover:first-child {
+  color: var(--red-clr);
+}
