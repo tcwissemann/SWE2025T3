@@ -7,7 +7,6 @@
 <link rel="stylesheet" href='{% static "styles/catalog.css" %}' type="text/css">
 <link rel="stylesheet" href='{% static "styles/product-detail.css" %}' type="text/css">
 
-
   <!-- Product Detail Section -->
   <section class="container pt-5">
     <div class="container mt-5 pt-5 mb-5 pb-5 product-detail rounded">
@@ -21,10 +20,29 @@
         <!-- Product Customization Options -->
         <div class="col-md-6 pe-5 product-customization">
           <h1 class="featured-product-heading">{{ product.name }}</h1>
-          <h3 class="product-cost card-text">${{ product.price_in_dollars }}</h3>
+          <h3 class="product-cost card-text mb-2">${{ product.price_in_dollars }}</h3>
+
+          <!-- Color Options -->
+          <div class="color-btns">
+            {% for color in colors %}
+              <input type="radio" name="color" value="{{ color.name }}" style="background-color: #{{ color.hexValue }}"
+                {% if forloop.first %} checked {% endif %}>
+            {% endfor %}
+          </div>          
+
+          <!-- Size Options -->
+          <div class="size-btns mb-2">
+            {% for size in sizes %}
+              <label class="size-option rounded">
+                <input type="radio" name="size" value="{{ size.name }}" 
+                  {% if forloop.first %} checked {% endif %}>
+                <span>{{ size.name }}</span>
+              </label>
+            {% endfor %}
+          </div>          
 
           <!-- Product Description -->
-          <p class="product-description">
+          <p class="product-description mb-3">
             {{ product.description }}
           </p>
 
@@ -51,5 +69,18 @@
       </div>
     </div>
   </section>
+  <script>
+    function validateQuantity() {
+      const quantityInput = document.querySelector('#quantity');
+      const quantityValue = Number(quantityInput.value);
+
+      if (quantityValue < 1 || !Number.isInteger(quantityValue)) {
+        quantityInput.value = 1;
+      }
+      if (quantityValue > 99) {
+        quantityInput.value = 99;
+      }
+    }
+  </script>
 
 {% endblock %}
