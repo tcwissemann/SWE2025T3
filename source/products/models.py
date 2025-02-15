@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from users.models import User
 
 # Create your models here.
@@ -9,6 +10,9 @@ class Product(models.Model):
     imageURL = models.URLField()
     price = models.IntegerField()
 
+    def price_in_dollars(self):
+        return round(self.price / 100.0, 2)
+
     class Meta:
         verbose_name = "Product"
         verbose_name_plural = "Products"
@@ -17,8 +21,7 @@ class Product(models.Model):
         return f"SKU {self.sku} | {self.name}"
 
     def get_absolute_url(self):
-        return reversed("Product_detail", kwargs={"pk": self.pk})
-
+        return reverse("Product_detail", kwargs={"pk": self.pk})
 
 class Design(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -84,6 +87,3 @@ class DesignedProduct(models.Model):
 
     def get_absolute_url(self):
         return reversed("DesignedProduct_detail", kwargs={"pk": self.pk})
-    
-
-
