@@ -65,6 +65,7 @@
 
 
           <!-- Add to Order Button -->
+           {% comment %} hx-post="{% url 'add_to_cart' item.id %}" hx-swap="none" hx-trigger="click" {% endcomment %}
           <button class="btn custom-button">Add to Order</button>
         </div>
       </div>
