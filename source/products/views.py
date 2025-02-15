@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Product
+from .models import Product, Size, Color
 
 def catalog(request):
     products = Product.objects.all()
@@ -19,8 +19,14 @@ def catalog(request):
 
 def product(request, pk):
     product = get_object_or_404(Product, pk=pk)
+    sizes = Size.objects.filter(productType=product)
+    colors = Color.objects.all()
     
-    return render(request, "product-detail.html", {'product': product})
+    return render(request, "product-detail.html", {
+        'product': product,
+        'sizes': sizes,
+        'colors': colors,
+    })
 
 def add_to_cart(request, item_id):
     if request.method == 'POST':
