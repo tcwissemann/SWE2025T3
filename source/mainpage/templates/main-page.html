@@ -12,23 +12,21 @@
     </div>
   </section>
 
-  <!-- Featured Product (REPLACE WITH DATABASE ITEM) -->
+  <!-- Featured Product -->
   <section id="featured-product" class="featured-product">
     <div class="container">
       <div class="row align-items-center">
         <div class="col-md-6">
-          <img src="{% static "images/fish-pillow.jpg" %}" alt="fish-pillow" class="img-fluid featured-img rounded">
+          <img src="{{ featured_product.imageURL }}" alt="{{ featured_product.name }}" class="img-fluid featured-img rounded">
         </div>
         <div class="featured-text col-md-6 text-md-left">
           <h1 class="featured-product-heading">Featured Product</h1>
-          <h2 class="product-name">Fish Pillow</h2>
-          <p class="product-cost">$29.99</p>
+          <h2 class="product-name">{{ featured_product.name }}</h2>
+          <p class="product-cost">${{ featured_product_price }}</p>
           <p class="product-description">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi justo justo, vestibulum vitae tempus et,
-            maximus quis est. Morbi porttitor lorem nulla, ut auctor mi sodales id.
+            {{ featured_product.description }}
           </p>
-          <!-- NEW LINK -->
-          <a href="" class="btn btn-lg custom-button">View Product</a>
+          <a href="/shop/product/{{ featured_product.sku }}" class="btn btn-lg custom-button">View Product</a>
         </div>
       </div>
     </div>
