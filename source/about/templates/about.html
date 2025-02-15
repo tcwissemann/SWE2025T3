@@ -1,9 +1,10 @@
 {% extends "base.html" %} {% block title %} About {% endblock %}
 {% load static %}
 {% block content %}
-<link rel="stylesheet" href="/static/styles/main-style.css" type="text/css">
-<div class="home">
-  <h1>The Code Talkers</h1>
+
+<link rel="stylesheet" href="{% static 'styles/main-style.css' %}" type="text/css">
+<div class="home mt-5 p-2">
+  <h1 class="about-header">The Code Talkers</h1>
   <h2>"Eat, Sleep, Code, Repeat."</h2>
   <div class="members">
     <div class="member">
