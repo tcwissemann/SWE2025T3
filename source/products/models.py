@@ -9,6 +9,7 @@ class Product(models.Model):
     name = models.CharField(max_length=50)
     imageURL = models.URLField()
     price = models.IntegerField()
+    description = models.TextField()
 
     def price_in_dollars(self):
         return round(self.price / 100.0, 2)
