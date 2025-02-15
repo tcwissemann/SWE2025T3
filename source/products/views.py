@@ -1,15 +1,27 @@
-from django.http import HttpResponse
-import json
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from .models import Product
 
-# Create your views here.
 def catalog(request):
-    return render(request, "catalog.html")
+    products = Product.objects.all()
+    
+    category = request.GET.get('category')
+    if category and category != 'all':
+        products = products.filter(name__icontains=category)
 
-def product(request):
-    return render(request, "product-detail.html")
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+    if min_price:
+        products = products.filter(price__gte=int(min_price))
+    if max_price:
+        products = products.filter(price__lte=int(max_price))
 
-# general logic for when dynamic product page is implemented
+    return render(request, "catalog.html", {'products': products})
+
+def product(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    
+    return render(request, "product-detail.html", {'product': product})
+
 def add_to_cart(request, item_id):
     if request.method == 'POST':
         cart = request.COOKIES.get('cart', '[]')
