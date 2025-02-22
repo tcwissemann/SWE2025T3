@@ -10,7 +10,7 @@
   <!-- Product Detail Section -->
   <section class="container pt-5">
     <div class="container mt-5 pt-5 mb-5 pb-5 product-detail rounded">
-      <a href="/shop" class="btn custom-button ms-5 ps-2 pe-2 pt-1 pb-1">BACK</a>
+      <a href="/shop" class="btn custom-button rounded ps-2 pe-2 pt-1 pb-1" style="margin-left: 36px;">BACK</a>
       <div class="row">
         <!-- Product Image -->
         <div class="col-md-6 ps-5 product-image">
@@ -19,13 +19,13 @@
 
         <!-- Product Customization Options -->
         <div class="col-md-6 pe-5 product-customization">
-          <h1 class="featured-product-heading">{{ product.name }}</h1>
-          <h3 class="product-cost card-text mb-2">${{ product.price_in_dollars }}</h3>
+          <h1 class="featured-product-heading mb-1">{{ product.name }}</h1>
+          <h3 class="product-cost card-text mb-3">${{ product.price_in_dollars }}</h3>
 
           <!-- Color Options -->
           <div class="color-btns">
             {% for color in colors %}
-              <input type="radio" name="color" value="{{ color.name }}" style="background-color: #{{ color.hexValue }}"
+              <input type="radio" class="rounded" name="color" value="{{ color.name }}" style="background-color: #{{ color.hexValue }}"
                 {% if forloop.first %} checked {% endif %}>
             {% endfor %}
           </div>          
@@ -48,8 +48,8 @@
 
           <!-- Image Upload -->
           <div class="my-2">
-            <label for="imageUpload" class="btn custom-button mini dark">Upload Image</label>
-            <input type="file" id="imageUpload" accept="image/*" style="display:none;" onchange="previewImage(event)">
+            {% comment %} <label for="imageUpload" class="btn custom-button mini dark">Upload Image</label>
+            <input type="file" id="imageUpload" accept="image/*" style="display:none;" onchange="previewImage(event)"> {% endcomment %}
           </div>
 
           <!-- Quantity -->
