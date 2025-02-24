@@ -11,8 +11,8 @@ class User(models.Model):
     phoneNumber = models.CharField(max_length=10) # No parenthesis or dashes included
 
     class Meta:
-        verbose_name = ("User")
-        verbose_name_plural = ("Users")
+        verbose_name = "User"
+        verbose_name_plural = "Users"
 
     def __str__(self):
         return f"{self.username} | {self.email}"

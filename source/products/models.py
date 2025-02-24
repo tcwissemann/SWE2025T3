@@ -27,7 +27,7 @@ class Product(models.Model):
 class Design(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    image = models.URLField()
+    image = models.ImageField()
     dateUploaded = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     class Meta:

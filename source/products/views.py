@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Product, Size, Color
+from . import forms
 
 def catalog(request):
     products = Product.objects.all()
@@ -87,3 +88,8 @@ def update_quantity(request, item_id):
     response = HttpResponse('Quantity updated')
     response.set_cookie('cart', json.dumps(cart), max_age=604800)
     return response
+
+def view_designs(request):
+    designs = []
+    
+    return render(request, 'designs.html', {'designs': designs})
