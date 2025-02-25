@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="container pt-5">
+  <h1 class="text-center mt-5">Login</h1>
+</div>
+<form action="" method="POST" class="mt-5 w-50 mx-auto">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label for="inputUsername" class="form-label">Username</label>
+    <input type="text" class="form-control" id="inputUsername" name="username">
+  </div>
+  <div class="mb-3">
+    <label for="inputPassword" class="form-label">Password</label>
+    <input type="password" class="form-control" id="inputPassword" name="password">
+  </div>
+  <div class="mb-3">
+    {% comment %} <input type="checkbox" class="form-check-input" id="exampleCheck1"> {% endcomment %}
+    {% comment %} #{% url 'password_reset' %} {% endcomment %}
+    <a href="#">Forgot password?</a>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}
