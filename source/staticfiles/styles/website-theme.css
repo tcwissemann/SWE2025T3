@@ -110,7 +110,7 @@ section.container {
 }
 
 .product-description {
-  font-size: 1rem;
+  font-size: 0.9rem;
   margin-bottom: 20px;
   color: var(--secondary-font-clr);
 }
@@ -118,8 +118,7 @@ section.container {
 .btn.custom-button {
   background-color: var(--accent-clr);
   color: var(--main-bkg-clr);
-  padding: 5px 20px;
-  border-radius: 50px;
+  padding: 5px 15px;
   font-size: 18px;
   transition: all 0.1s ease;
 }

@@ -9,6 +9,7 @@
 </div>
 <form action="" method="POST" class="mt-5 w-50 mx-auto">
   {% csrf_token %}
+  <div class ="shadow p-4 mb-5 bg-body rounded">
   <div class="mb-3">
     <label for="inputUsername" class="form-label">Username</label>
     <input type="text" class="form-control" id="inputUsername" name="username">
@@ -20,8 +21,9 @@
   <div class="mb-3">
     {% comment %} <input type="checkbox" class="form-check-input" id="exampleCheck1"> {% endcomment %}
     {% comment %} #{% url 'password_reset' %} {% endcomment %}
-    <a href="#">Forgot password?</a>
+    <a href="{% url 'password_reset' %}">Forgot password?</a>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary form-control">Submit</button>
+  </div>
 </form>
 {% endblock %}

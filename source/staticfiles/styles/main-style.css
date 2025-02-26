@@ -21,7 +21,10 @@
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
-  overflow-x: hidden;
+}
+
+body {
+  background-image: linear-gradient(var(--accent-dark-clr), var(--secondary-bkg-clr) 80%);
 }
 
 h1, h2, h3 {
@@ -42,7 +45,6 @@ h1, h2, h3 {
   flex: 1;
   flex-direction: column;
   gap: 20px;
-  background-image: linear-gradient(var(--accent-dark-clr), var(--secondary-bkg-clr) 80%);
 }
 
 .home h1, .home h2, .home h3 {
