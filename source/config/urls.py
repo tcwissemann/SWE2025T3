@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from products.views import designs
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,5 +24,6 @@ urlpatterns = [
     path('', include('mainpage.urls')),
     path('shop/', include('products.urls')),
     path('order/', include('orders.urls')),
-    path('profile/', include('users.urls'))
+    path('profile/', include('users.urls')),
+    path('designs/', designs)
 ]

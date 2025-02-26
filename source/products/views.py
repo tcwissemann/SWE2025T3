@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Product, Size, Color
+from .models import Product, Size, Color, Design
 from . import forms
+from django.conf import settings
+from users.models import User
 
 def catalog(request):
     products = Product.objects.all()
@@ -89,7 +91,19 @@ def update_quantity(request, item_id):
     response.set_cookie('cart', json.dumps(cart), max_age=604800)
     return response
 
-def view_designs(request):
-    designs = []
+def designs(request):
+    ID = 1
+    if request.method == 'POST':
+        test_user = User.objects.get(id=ID)
+        print(request.FILES)
+        print(request.POST)
+        image_file = request.FILES['image']
+        name = request.POST['name']
+        if settings.USE_S3:
+            upload = Design(user=test_user, name=name, image=image_file)
+            upload.save()
     
-    return render(request, 'designs.html', {'designs': designs})
+    form = forms.DesignForm()
+    user_designs = Design.objects.all()
+    [print(f"{d.image.url} | {d.name} | {d.user.username}") for d in user_designs]
+    return render(request, 'designs.html', {'form': form, 'designs': user_designs})
