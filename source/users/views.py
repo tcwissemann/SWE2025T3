@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.models import User
 from django.contrib import messages
 
 # Create your views here.
@@ -19,3 +18,8 @@ def login_user(request):
             messages.error(request, 'Incorrect username or password, try again')
             return redirect('login')
     return render(request, 'authenticate/login.html', {})
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, 'You have been logged out')
+    return redirect('Purple Bubble')
