@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load bootstrap5 %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+{% if form.errors %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>There was an error submitting your form</strong>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endif %}
+
+<div class="container pt-5">
+  <h1 class="text-center mt-5">Register</h1>
+</div>
+<form action="{% url 'register' %}" method="POST" class="mt-5 w-50 mx-auto">
+  {% csrf_token %}
+  <div class ="shadow p-4 mb-5 bg-body rounded">
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary form-control">Submit</button>
+  </div>
+</form>
+{% endblock %}

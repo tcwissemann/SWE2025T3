@@ -38,10 +38,18 @@
                   <!-- NEW LINK -->
                   <a class="d-flex align-items-center" href="/about">About Us</a>
                 </li>
+                {% if user.is_authenticated %}
                 <li class="nav-item">
-                  <!-- NEW LINK -->
-                  <a class="d-flex align-items-center" href="">Login</a>
+                    <a class="d-flex align-items-center" href="{% url 'logout' %}">Logout</a>
                 </li>
+                {% else %}
+                <li class="nav-item">
+                  <a class="d-flex align-items-center" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                  <a class="d-flex align-items-center" href="{% url 'register' %}">Register</a>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                   <!-- NEW LINK -->
                   <a class="d-flex align-items-center" href="/order"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart3" viewBox="0 0 20 20">
@@ -53,6 +61,16 @@
           </div>
         </nav>
         <div>
+          <div class="container pt-5 mt-4">
+            {% if messages %}
+              {% for message in messages %}
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>{{ message.tags }}</strong> {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              {% endfor %}
+            {% endif %}
+          </div>
           {% block content %}
           {% endblock %}
         </div>
