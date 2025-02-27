@@ -4,6 +4,8 @@ from .models import Product, Size, Color, Design
 from . import forms
 from django.conf import settings
 from django.contrib.auth.models import User
+from mainpage.views import about_us
+import django.contrib.auth.models
 
 def catalog(request):
     products = Product.objects.all()
@@ -93,18 +95,24 @@ def update_quantity(request, item_id):
     return response
 
 def designs(request):
-    ID = 1
+    try:
+        print(request.user)
+        print(request.user.id)
+        USER = User.objects.get(id=request.user.id)
+    except django.contrib.auth.models.User.DoesNotExist as e:
+        print(e)
+        print("No User Logged In")
+        return render(request, 'designs.html', {"isLoggedIn": False})
     if request.method == 'POST':
-        test_user = User.objects.get(id=ID)
         print(request.FILES)
         print(request.POST)
         image_file = request.FILES['image']
         name = request.POST['name']
         if settings.USE_S3:
-            upload = Design(user=test_user, name=name, image=image_file)
+            upload = Design(user=USER, name=name, image=image_file)
             upload.save()
     
     form = forms.DesignForm()
-    user_designs = Design.objects.all()
+    user_designs = Design.objects.all().filter(user=USER)
     [print(f"{d.image.url} | {d.name} | {d.user.username}") for d in user_designs]
-    return render(request, 'designs.html', {'form': form, 'designs': user_designs})
+    return render(request, 'designs.html', {"isLoggedIn": True, 'form': form, 'designs': user_designs})
