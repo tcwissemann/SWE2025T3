@@ -9,57 +9,21 @@
 
   <section class="container mt-5 pt-5">
     <h1 class="page-title mb-3 mx-1 rounded">Orders</h1>
-    <!-- Order Item (REPLACE WITH PRODUCT INFO) -->
-    <div class="py-3 mb-3 mx-1 order-row rounded d-flex align-items-center">
-      <div class="product-image ms-3">
-        <img src="" alt="Product Image" class="img-fluid rounded order-img">
-      </div>
-      <div class="qualitative-attributes-container flex-grow-1 px-3">
-        <div class="product-name">Custom Backpack</div>
-        <div class="d-flex align-items-center" style="gap: 10px;">
-          <div class="product-attribute color rounded">Red</div>
-          <div class="product-attribute size rounded">Large</div>
-        </div>
-      </div>
-      <div class="product-attributes-container px-3" style="text-align: center;">
-        <div class="product-attribute price rounded">$29.98</div>
-        <div class="product-attribute quantity rounded">
-          Quantity:
-          <button class="quantity-change btn btn-sm"
-            onclick="updateQuantity(false, this.closest('.order-row'))">-</button>
-          <span class="quantity">2</span>
-          <button class="quantity-change btn btn-sm"
-            onclick="updateQuantity(true, this.closest('.order-row'))">+</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="py-3 mb-3 mx-1 order-row rounded d-flex align-items-center">
-      <div class="product-image ms-3">
-        <img src="" alt="Product Image" class="img-fluid rounded order-img">
-      </div>
-      <div class="qualitative-attributes-container flex-grow-1 px-3">
-        <div class="product-name">Custom Mug</div>
-        <div class="d-flex align-items-center" style="gap: 10px;">
-          <div class="product-attribute color rounded">Green</div>
-          <div class="product-attribute size rounded">Small</div>
-        </div>
-      </div>
-      <div class="product-attributes-container px-3" style="text-align: center;">
-        <div class="product-attribute price rounded">$15.50</div>
-        <div class="product-attribute quantity rounded">
-          Quantity:
-          <button class="quantity-change btn btn-sm"
-            onclick="updateQuantity(false, this.closest('.order-row'))">-</button>
-          <span class="quantity">2</span>
-          <button class="quantity-change btn btn-sm"
-            onclick="updateQuantity(true, this.closest('.order-row'))">+</button>
-        </div>
+    
+    <!-- Order Items Container -->
+    <div id="orderItemsContainer">
+      <!-- Items will be loaded dynamically from the cart cookie -->
+      <!-- Empty state message -->
+      <div id="emptyCartMessage" class="py-5 text-center" style="display: none;">
+        <h3>Nothing here yet</h3>
+        <p class="mt-3">
+          <a href="/shop" class="btn custom-button rounded">Continue Shopping</a>
+        </p>
       </div>
     </div>
 
     <!-- Summary -->
-    <div class="py-3 mb-3 mx-1 total-row rounded d-flex align-items-center justify-content-center">
+    <div class="py-3 mb-3 mx-1 total-row rounded d-flex align-items-center justify-content-center" id="orderSummary" style="display: none;">
       <div class="d-flex mx-3">
         <div class="mx-1"><strong>Subtotal:</strong></div>
         <div id="subtotal">$0.00</div>
@@ -78,51 +42,140 @@
       </div>
     </div>
   </section>
+  
   <script>
     window.onload = function () {
-      updateOrderTotals();
+      loadCartItems();
     };
-
-    function updateQuantity(increment, productElement) {
-      const quantityElement = productElement.querySelector('.quantity span');
-      const priceElement = productElement.querySelector('.price');
-      const price = parseFloat(priceElement.innerText.replace('$', ''));
-
-      let quantity = parseInt(quantityElement.innerText);
-
-      if (increment) quantity += 1;
-      else if (quantity > 0) quantity -= 1;
-
-      quantityElement.innerText = quantity;
-
-      if (quantity === 0) productElement.remove();
-
+    
+    // Load items from cart cookie
+    function loadCartItems() {
+      const cart = getCartFromCookie();
+      const orderItemsContainer = document.getElementById('orderItemsContainer');
+      const emptyCartMessage = document.getElementById('emptyCartMessage');
+      const orderSummary = document.getElementById('orderSummary');
+      
+      // Clear existing items
+      orderItemsContainer.innerHTML = '';
+      orderItemsContainer.appendChild(emptyCartMessage);
+      
+      if (!cart || cart.length === 0) {
+        // Show empty cart message if no items
+        emptyCartMessage.style.display = 'block';
+        orderSummary.style.display = 'none';
+        return;
+      }
+      
+      // Hide empty cart message and show summary
+      emptyCartMessage.style.display = 'none';
+      orderSummary.style.display = 'flex';
+      
+      // Add each item from the cart
+      cart.forEach((item, index) => {
+        const orderRow = document.createElement('div');
+        orderRow.className = 'py-3 mb-3 mx-1 order-row rounded d-flex align-items-center';
+        orderRow.dataset.itemIndex = index;
+        
+        orderRow.innerHTML = `
+          <div class="product-image ms-3">
+            <img src="${item.image || ''}" alt="${item.name}" class="img-fluid rounded order-img">
+          </div>
+          <div class="qualitative-attributes-container flex-grow-1 px-3">
+            <div class="product-name">${item.name}</div>
+            <div class="d-flex align-items-center" style="gap: 10px;">
+              <div class="product-attribute color rounded">${item.color}</div>
+              <div class="product-attribute size rounded">${item.size}</div>
+            </div>
+          </div>
+          <div class="product-attributes-container px-3" style="text-align: center;">
+            <div class="product-attribute price rounded">$${item.price}</div>
+            <div class="product-attribute quantity rounded">
+              Quantity:
+              <button class="quantity-change btn btn-sm"
+                onclick="updateItemQuantity(${index}, false)">-</button>
+              <span class="quantity">${item.quantity}</span>
+              <button class="quantity-change btn btn-sm"
+                onclick="updateItemQuantity(${index}, true)">+</button>
+            </div>
+          </div>
+        `;
+        
+        orderItemsContainer.appendChild(orderRow);
+      });
+      
       updateOrderTotals();
     }
-
+    
+    // Update item quantity in the cart
+    function updateItemQuantity(itemIndex, increment) {
+      const cart = getCartFromCookie();
+      if (!cart || !cart[itemIndex]) return;
+      
+      if (increment) {
+        cart[itemIndex].quantity += 1;
+      } else {
+        cart[itemIndex].quantity -= 1;
+        
+        // Remove item if quantity is 0
+        if (cart[itemIndex].quantity <= 0) {
+          cart.splice(itemIndex, 1);
+        }
+      }
+      
+      // Update cookie with modified cart
+      setCookie('cart', JSON.stringify(cart), 7);
+      
+      // Reload the cart items to reflect changes
+      loadCartItems();
+    }
+    
+    // Calculate and update order totals
     function updateOrderTotals() {
-      const orderRows = document.querySelectorAll('.order-row');
-      console.log(orderRows)
+      const cart = getCartFromCookie();
+      if (!cart || cart.length === 0) return;
+      
       let subtotal = 0;
-
-      orderRows.forEach(row => {
-        const priceElement = row.querySelector('.price');
-        const quantityElement = row.querySelector('.quantity span');
-        console.log(parseFloat(priceElement.innerText.replace('$', '').trim()));
-        const price = parseFloat(priceElement.innerText.replace('$', '').trim()); 
-
-        const quantity = parseInt(quantityElement.innerText);
-
+      
+      cart.forEach(item => {
+        const price = parseFloat(item.price);
+        const quantity = parseInt(item.quantity);
         subtotal += price * quantity;
       });
-
+      
       const tax = subtotal * 0.08;
-      const shipping = 0.00; 
+      const shipping = 0.00;
       const total = subtotal + tax + shipping;
-
+      
       document.getElementById('subtotal').innerText = "$" + subtotal.toFixed(2);
       document.getElementById('tax').innerText = "$" + tax.toFixed(2);
       document.getElementById('total').innerText = "$" + total.toFixed(2);
     }
+    
+    // Cookie helper functions
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+    
+    function getCookie(name) {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    }
+    
+    function getCartFromCookie() {
+      const cartCookie = getCookie('cart');
+      return cartCookie ? JSON.parse(cartCookie) : [];
+    }
   </script>
-  {% endblock %}
+{% endblock %}

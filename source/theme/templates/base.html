@@ -18,6 +18,28 @@
 
         {% comment %} Static Files {% endcomment %}
         {% load static %}
+        
+        <style>
+            /* Cart Badge Styles */
+            .cart-icon-container {
+                position: relative;
+                display: inline-block;
+            }
+            
+            .cart-badge {
+                position: absolute;
+                top: -5px;
+                right: -5px;
+                background-color: #8b52ff; /* Purple to match theme */
+                color: white;
+                border-radius: 50%;
+                padding: 0.125rem 0.25rem;
+                font-size: 0.6rem;
+                min-width: 0.8rem;
+                text-align: center;
+                font-weight: bold;
+            }
+        </style>
     </head>
     <body>
         <link rel="stylesheet" href='{% static "styles/website-theme.css" %}' type="text/css">
@@ -51,10 +73,15 @@
                 </li>
                 {% endif %}
                 <li class="nav-item">
-                  <!-- NEW LINK -->
-                  <a class="d-flex align-items-center" href="/order"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart3" viewBox="0 0 20 20">
-                    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                  </svg></a>
+                  <!-- Cart with Badge -->
+                  <a class="d-flex align-items-center" href="/order">
+                    <div class="cart-icon-container">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart3" viewBox="0 0 20 20">
+                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+                      </svg>
+                      <span class="cart-badge" id="cartBadge" style="display: none;">0</span>
+                    </div>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -131,5 +158,59 @@
       </div>
     </div>
   </footer>
-    </body>
+
+  <!-- Script to update cart badge -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      updateCartBadge();
+      
+      // Update badge every time the page is shown (handles browser back button)
+      window.addEventListener('pageshow', updateCartBadge);
+    });
+    
+    function updateCartBadge() {
+      const cartCookie = getCookie('cart');
+      const cartBadge = document.getElementById('cartBadge');
+      
+      if (cartCookie) {
+        try {
+          const cart = JSON.parse(cartCookie);
+          
+          if (cart && cart.length > 0) {
+            // Calculate total quantity of all items
+            const totalQuantity = cart.reduce((total, item) => {
+              return total + (parseInt(item.quantity) || 0);
+            }, 0);
+            
+            // Update badge text and show it
+            cartBadge.textContent = totalQuantity;
+            cartBadge.style.display = 'block';
+          } else {
+            // Hide badge if cart is empty
+            cartBadge.style.display = 'none';
+          }
+        } catch (e) {
+          // Hide badge if there's an error parsing the cart
+          cartBadge.style.display = 'none';
+          console.error('Error parsing cart cookie:', e);
+        }
+      } else {
+        // Hide badge if no cart cookie exists
+        cartBadge.style.display = 'none';
+      }
+    }
+    
+    // Cookie helper function
+    function getCookie(name) {
+      const nameEQ = name + "=";
+      const ca = document.cookie.split(';');
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    }
+  </script>
+</body>
 </html>

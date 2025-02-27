@@ -1,86 +1,162 @@
 {% extends "base.html" %}
 {% block title %} Product Detail {% endblock %}
 {% load static %}
-
 {% block content %}
 <link rel="stylesheet" href='{% static "styles/website-theme.css" %}' type="text/css">
 <link rel="stylesheet" href='{% static "styles/catalog.css" %}' type="text/css">
 <link rel="stylesheet" href='{% static "styles/product-detail.css" %}' type="text/css">
-
-  <!-- Product Detail Section -->
-  <section class="container pt-5">
+<!-- Product Detail Section -->
+<section class="container pt-5">
     <div class="container mt-5 pt-5 mb-5 pb-5 product-detail rounded">
-      <a href="/shop" class="btn custom-button rounded ps-2 pe-2 pt-1 pb-1" style="margin-left: 36px;">BACK</a>
-      <div class="row">
-        <!-- Product Image -->
-        <div class="col-md-6 ps-5 product-image">
-          <img src="{{ product.imageURL }}" class="img-fluid rounded expanded-img" alt="{{ product.name }}">
-        </div>
-
-        <!-- Product Customization Options -->
-        <div class="col-md-6 pe-5 product-customization">
-          <h1 class="featured-product-heading mb-1">{{ product.name }}</h1>
-          <h3 class="product-cost card-text mb-3">${{ product.price_in_dollars }}</h3>
-
-          <!-- Color Options -->
-          <div class="color-btns">
-            {% for color in colors %}
-              <input type="radio" class="rounded" name="color" value="{{ color.name }}" style="background-color: #{{ color.hexValue }}"
-                {% if forloop.first %} checked {% endif %}>
-            {% endfor %}
-          </div>          
-
-          <!-- Size Options -->
-          <div class="size-btns mb-2">
-            {% for size in sizes %}
-              <label class="size-option rounded">
-                <input type="radio" name="size" value="{{ size.name }}" 
-                  {% if forloop.first %} checked {% endif %}>
-                <span>{{ size.name }}</span>
-              </label>
-            {% endfor %}
-          </div>          
-
-          <!-- Product Description -->
-          <p class="product-description mb-3">
-            {{ product.description }}
-          </p>
-
-          <!-- Image Upload -->
-          <div class="my-2">
-            {% comment %} <label for="imageUpload" class="btn custom-button mini dark">Upload Image</label>
-            <input type="file" id="imageUpload" accept="image/*" style="display:none;" onchange="previewImage(event)"> {% endcomment %}
-          </div>
-
-          <!-- Quantity -->
-          <div class="my-3">
-            <div class="d-flex align-items-center position-relative">
-              <input class="form-control py-2 me-2" style="padding-left: 80px;">
-              <div class="quantity-heading position-absolute">
-                Quantity:
-              </div>
-              <input type="number" id="quantity" class="form-control py-2" value="1" onblur="validateQuantity()">
+        <a href="/shop" class="btn custom-button rounded ps-2 pe-2 pt-1 pb-1" style="margin-left: 36px;">BACK</a>
+        <div class="row">
+            <!-- Product Image -->
+            <div class="col-md-6 ps-5 product-image">
+                <img src="{{ product.imageURL }}" class="img-fluid rounded expanded-img" alt="{{ product.name }}">
             </div>
-          </div>
-
-          <!-- Add to Order Button -->
-          <button class="btn custom-button">Add to Order</button>
+            <!-- Product Customization Options -->
+            <div class="col-md-6 pe-5 product-customization">
+                <h1 class="featured-product-heading mb-1">{{ product.name }}</h1>
+                <h3 class="product-cost card-text mb-3">${{ product.price_in_dollars }}</h3>
+                <!-- Color Options -->
+                <div class="color-btns">
+                    {% for color in colors %}
+                    <input type="radio" class="rounded" name="color" value="{{ color.name }}" style="background-color: #{{ color.hexValue }}"
+                    {% if forloop.first %} checked {% endif %}>
+                    {% endfor %}
+                </div>
+                <!-- Size Options -->
+                <div class="size-btns mb-2">
+                    {% for size in sizes %}
+                    <label class="size-option rounded">
+                        <input type="radio" name="size" value="{{ size.name }}"
+                        {% if forloop.first %} checked {% endif %}>
+                        <span>{{ size.name }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+                <!-- Product Description -->
+                <p class="product-description mb-3">
+                    {{ product.description }}
+                </p>
+                <!-- Image Upload -->
+                <div class="my-2">
+                    {% comment %} <label for="imageUpload" class="btn custom-button mini dark">Upload Image</label>
+                    <input type="file" id="imageUpload" accept="image/*" style="display:none;" onchange="previewImage(event)"> {% endcomment %}
+                </div>
+                <!-- Quantity -->
+                <div class="my-3">
+                    <div class="d-flex align-items-center position-relative">
+                        <input class="form-control py-2 me-2" style="padding-left: 80px;">
+                        <div class="quantity-heading position-absolute">
+                            Quantity:
+                        </div>
+                        <input type="number" id="quantity" class="form-control py-2" value="1" min="1" max="99" onblur="validateQuantity()">
+                    </div>
+                </div>
+                <!-- Add to Order Button -->
+                <button class="btn custom-button" id="addToCart">Add to Order</button>
+                <!-- Success Message -->
+                <div class="alert alert-success mt-3" id="successMessage" style="display: none;">
+                    Item added to cart successfully!
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </section>
-  <script>
+</section>
+<script>
     function validateQuantity() {
-      const quantityInput = document.querySelector('#quantity');
-      const quantityValue = Number(quantityInput.value);
-
-      if (quantityValue < 1 || !Number.isInteger(quantityValue)) {
-        quantityInput.value = 1;
-      }
-      if (quantityValue > 99) {
-        quantityInput.value = 99;
-      }
+        const quantityInput = document.querySelector('#quantity');
+        const quantityValue = Number(quantityInput.value);
+        if (quantityValue < 1 || !Number.isInteger(quantityValue)) {
+            quantityInput.value = 1;
+        }
+        if (quantityValue > 99) {
+            quantityInput.value = 99;
+        }
     }
-  </script>
 
+    // Add to cart functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const addToCartBtn = document.getElementById('addToCart');
+        
+        addToCartBtn.addEventListener('click', function() {
+            // Get selected values
+            const productId = "{{ product.id }}";
+            const productName = "{{ product.name }}";
+            const productPrice = "{{ product.price_in_dollars }}";
+            const quantity = document.getElementById('quantity').value;
+            const selectedColor = document.querySelector('input[name="color"]:checked').value;
+            const selectedSize = document.querySelector('input[name="size"]:checked').value;
+            
+            // Get current cart from cookie or create new one
+            let cart = [];
+            const cookieCart = getCookie('cart');
+            
+            if (cookieCart) {
+                cart = JSON.parse(cookieCart);
+            }
+            
+            // Create cart item
+            const cartItem = {
+                id: productId,
+                name: productName,
+                price: productPrice,
+                quantity: parseInt(quantity),
+                color: selectedColor,
+                size: selectedSize,
+                image: "{{ product.imageURL }}"
+            };
+            
+            // Check if this item (with same product ID, color, and size) already exists in cart
+            const existingItemIndex = cart.findIndex(item => 
+                item.id === cartItem.id && 
+                item.color === cartItem.color && 
+                item.size === cartItem.size
+            );
+            
+            if (existingItemIndex !== -1) {
+                // Update quantity if item exists
+                cart[existingItemIndex].quantity += cartItem.quantity;
+            } else {
+                // Add new item to cart
+                cart.push(cartItem);
+            }
+            
+            // Save updated cart to cookie
+            setCookie('cart', JSON.stringify(cart), 7); // Cookie expires in 7 days
+            
+            // Show success message
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+            
+            // Hide success message after 3 seconds
+            setTimeout(function() {
+                successMessage.style.display = 'none';
+            }, 3000);
+        });
+    });
+    
+    // Cookie helper functions
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+    
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+</script>
 {% endblock %}
