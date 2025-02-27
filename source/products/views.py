@@ -7,6 +7,14 @@ from django.contrib.auth.models import User
 from mainpage.views import about_us
 import django.contrib.auth.models
 
+def getUserDesignsContext(request)->tuple[User, list[Design]] | None:
+    try:
+        USER = User.objects.get(id=request.user.id)
+    except django.contrib.auth.models.User.DoesNotExist as e:
+        return None
+    else:
+        return USER, Design.objects.all().filter(user=USER)
+
 def catalog(request):
     products = Product.objects.all()
     
@@ -28,10 +36,14 @@ def product(request, pk):
     sizes = Size.objects.filter(productType=product)
     colors = Color.objects.all()
     
+    userDesignsContext = getUserDesignsContext(request)
+    designs = userDesignsContext[1] if userDesignsContext != None else None
+    
     return render(request, "product-detail.html", {
         'product': product,
         'sizes': sizes,
         'colors': colors,
+        'designs': designs
     })
 
 def add_to_cart(request, item_id):
@@ -95,24 +107,18 @@ def update_quantity(request, item_id):
     return response
 
 def designs(request):
-    try:
-        print(request.user)
-        print(request.user.id)
-        USER = User.objects.get(id=request.user.id)
-    except django.contrib.auth.models.User.DoesNotExist as e:
-        print(e)
-        print("No User Logged In")
+    userDesignsContext: tuple[User, list[Design]] = getUserDesignsContext(request)
+    if userDesignsContext == None:
         return render(request, 'designs.html', {"isLoggedIn": False})
+        
     if request.method == 'POST':
         print(request.FILES)
         print(request.POST)
         image_file = request.FILES['image']
         name = request.POST['name']
         if settings.USE_S3:
-            upload = Design(user=USER, name=name, image=image_file)
+            upload = Design(user=userDesignsContext[0], name=name, image=image_file)
             upload.save()
     
     form = forms.DesignForm()
-    user_designs = Design.objects.all().filter(user=USER)
-    [print(f"{d.image.url} | {d.name} | {d.user.username}") for d in user_designs]
-    return render(request, 'designs.html', {"isLoggedIn": True, 'form': form, 'designs': user_designs})
+    return render(request, 'designs.html', {"isLoggedIn": True, 'form': form, 'designs': userDesignsContext[1]})

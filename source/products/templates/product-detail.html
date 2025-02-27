@@ -35,6 +35,22 @@
                     </label>
                     {% endfor %}
                 </div>
+                <!-- Design Options -->
+                {% if designs != None and designs|length > 0%}
+                <div style="display:flex;flex-direction:row;">
+                    {% for design in designs %}
+                    <div style="display:flex;flex-direction:column;padding:1%;background-color:purple">
+                        <img src='{{ design.image.url }}' alt="{{ design.name }}" style="max-width: 10vw; max-height: 10vh;object-fit:contain">
+                        <strong style="color:white">{{ design.name }}</strong>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% elif designs != None and designs|length == 0  %}
+                <p> You haven't uploaded any designs! </p>
+                {% else %}
+                <p> Log In first to upload a design! </p>
+                {% endif %}
+                
                 <!-- Product Description -->
                 <p class="product-description mb-3">
                     {{ product.description }}

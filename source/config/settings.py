@@ -23,9 +23,9 @@ env = environ.Env(
     DB_PASSWORD=(str, 'thisisnotthedbpassword'),
     SECRET_KEY=(str, 'django-insecure-12lan%j++kzuch37+z@j_vz95g8bo4$+#h_8t781cqicr-1y)1'),
     USE_S3 = (str, 'TRUE'),
-    AWS_SECRET_ACCESS_KEY = (str, 'not-a-key'),
+    AWS_SECRET_ACCESS_KEY = (str, 'not_a_key'),
     AWS_STORAGE_BUCKET_NAME = (str, 'swe-media'),
-    AWS_ACCESS_KEY_ID = (str, 'not-a-key'),
+    AWS_ACCESS_KEY_ID = (str, 'not_a_key'),
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
