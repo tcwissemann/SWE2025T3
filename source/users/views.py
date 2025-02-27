@@ -39,6 +39,10 @@ def register_user(request):
 
             messages.success(request, f'Account created for {username}')
             return redirect('Purple Bubble')
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{error}")
     else:
         form = RegisterUserForm()
     return render(request, 'authenticate/register.html', {'form': form})
