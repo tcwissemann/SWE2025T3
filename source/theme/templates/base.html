@@ -89,7 +89,7 @@
         </nav>
         <div>
           {% if messages %}
-          <div class="messages container mt-5">
+          <div class="messages container d-flex justify-content-center" style="position: absolute; left: 50%; transform: translate(-50%, 0%);">
               {% for message in messages %}
               <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
                   {{ message }}
