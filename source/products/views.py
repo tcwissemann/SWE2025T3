@@ -3,7 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Product, Size, Color, Design
 from . import forms
 from django.conf import settings
-from users.models import User
+from django.contrib.auth.models import User
 
 def catalog(request):
     products = Product.objects.all()
