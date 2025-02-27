@@ -4,6 +4,7 @@
 
 {% block content %}
 
+{% if isLoggedIn %}
 <form action='' method='POST' enctype='multipart/form-data'>
 {% csrf_token %}
 {{ form.as_p }}
@@ -11,6 +12,7 @@
 </form>
 
 <div style='display:flex;flex-direction:row;'>
+
     {% for design in designs %}
         <div style='padding:10px 30px;display:flex;flex-direction:column;'>
             <img src="{{ design.image.url }}" width=200>
@@ -19,6 +21,12 @@
             <button action='' >Delete</button>
         </div>
     {% endfor %}
+
 </div>
+{% else %}
+
+<h1> Please Log In to upload a design </h1>
+
+{% endif %}
 
 {% endblock %}
