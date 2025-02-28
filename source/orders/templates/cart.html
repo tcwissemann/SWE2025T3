@@ -40,6 +40,7 @@
         <div class="mx-1">Total:</div>
         <div id="total">$0.00</div>
       </div>
+      {% if user.is_authenticated %}
       <form action='' method="POST" id="cart-submit-form">
       <div class="d-flex mx-3 btn custom-button rounded">
         {% csrf_token %}
@@ -47,7 +48,12 @@
         <div onclick="submitOrder()" class="mx-1">Order Now<div>
       </div>
     </form>
-    </div>
+    {% else %}
+      <div class="d-flex mx-3 btn custom-button rounded">
+        <a href="{% url 'login' %}" class="mx-1" style="text-decoration: none; color: white;">Order Now</a>
+      </a>
+    {% endif %}
+    </a>
   </section>
   
   <script>
