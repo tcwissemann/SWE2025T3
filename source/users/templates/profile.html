@@ -29,7 +29,7 @@
           <tbody>
               {% for order in orders %}
               <tr class="rounded text-center">
-                  <td>{{ order.id }}</td>
+                  <td>{{ order.order_number }}</td>
                   <td>{{ order.formatted_items }}</td>
                   <td>Order Placed</td>
                   <td>{{ order.display_total|floatformat:2 }}</td>
