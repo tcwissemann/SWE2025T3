@@ -16,6 +16,12 @@ body {
   font-weight: 500;
 }
 
+.design-name, .product-attribute.price {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--accent-highlight-clr);
+}
+
 .product-attribute:not(.product-attribute.price) {
   font-size: 1rem;
   font-weight: 300;
@@ -33,4 +39,8 @@ body {
 
 .quantity-change:hover:first-child {
   color: var(--red-clr);
+}
+
+.product-main-info{
+  margin-bottom: 1vh;
 }

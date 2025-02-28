@@ -21,7 +21,7 @@
                 <!-- Color Options -->
                 <div class="color-btns">
                     {% for color in colors %}
-                    <input type="radio" class="rounded" name="color" colorName="{{ color.name }}" value="{{ color.id }}" style="background-color: #{{ color.hexValue }}"
+                    <input type="radio" class="rounded" name="color" colorname="{{ color.name }}" value="{{ color.id }}" style="background-color: #{{ color.hexValue }}"
                     {% if forloop.first %} checked {% endif %}>
                     {% endfor %}
                 </div>
@@ -29,7 +29,7 @@
                 <div class="size-btns mb-2">
                     {% for size in sizes %}
                     <label class="size-option rounded">
-                        <input type="radio" name="size" sizeName="{{ size.name }}"  value="{{ size.id }}"
+                        <input type="radio" name="size" sizename="{{ size.name }}"  value="{{ size.id }}"
                         {% if forloop.first %} checked {% endif %}>
                         <span>{{ size.name }}</span>
                     </label>
@@ -41,7 +41,7 @@
                 <div class="container card-group">
                     <div class="d-flex flex-nowrap overflow-auto">
                     {% for design in designs %}
-                        <div class="card design-card me-2" value="{{design.id}}" designName="{{ design.name }}"> 
+                        <div class="card design-card me-2" value="{{design.id}}" designname="{{ design.name }}"> 
                             <img src="{{ design.image.url }}" class="card-img-top" alt="{{ design.name }}">
                             <p class="card-text">{{ design.name }}</p>
                         </div>
@@ -113,9 +113,9 @@
 
             // Display Info
             const colorName = document.querySelector('input[name="color"]:checked').valueOf().getAttribute("colorname");
-            const sizeName = document.querySelector('input[name="color"]:checked').valueOf().getAttribute("sizename");
-            const designName = document.querySelector('input[name="color"]:checked').valueOf().getAttribute("designname");
-            const designImgUrl = document.querySelector('input[name="color"]:checked img').src;
+            const sizeName = document.querySelector('input[name="size"]:checked').valueOf().getAttribute("sizename");
+            const designName = document.querySelector('.clicked-card').valueOf().getAttribute("designname");
+            const designImgUrl = document.querySelector('.clicked-card img').src;
             
             // Get current cart from cookie or create new one
             let cart = [];
@@ -134,7 +134,11 @@
                 color: selectedColor,
                 size: selectedSize,
                 image: "{{ product.imageURL }}",
-                design: parseInt(selectedDesign)
+                design: selectedDesign,
+                colorname: colorName,
+                sizename: sizeName,
+                designname: designName,
+                designurl: designImgUrl
             };
             
             // Check if this item (with same product ID, color, and size) already exists in cart
