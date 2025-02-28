@@ -38,7 +38,7 @@
                 <!-- Design Options -->
                 {% if designs != None and designs|length > 0%}
                 <input type="hidden" id="design-selection" name="design" value="">
-                <div class="container card-group">
+                <div class="mb-3">
                     <div class="d-flex flex-nowrap overflow-auto">
                     {% for design in designs %}
                         <div class="card design-card me-2" value="{{design.id}}" designname="{{ design.name }}"> 
@@ -175,6 +175,13 @@
     document.addEventListener('DOMContentLoaded', function() {
         const designSelection = document.querySelector("#design-selection")
         const cards = document.querySelectorAll(".design-card")
+
+        if (cards.length > 0) {
+            // Select the first design by default
+            cards[0].classList.add('clicked-card');
+            designSelection.value = cards[0].getAttribute("value");
+        }    
+
         cards.forEach(card => {
             card.addEventListener('click', function() {
                 // Remove 'selected' class from all cards
