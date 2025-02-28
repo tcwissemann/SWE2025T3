@@ -1,5 +1,61 @@
 from django.shortcuts import render
+from . import forms
+import json
+from .models import Order, OrderItem
+from products.models import Product, Color, Size, Design, DesignedProduct
 
 # Create your views here.
 def cart(request):
-    return render(request, "cart.html")
+    
+    orderSent = False
+    
+    if request.method == "POST":
+        order_dict = json.loads(request.POST['cart'])
+        print(order_dict[0])
+        
+        #Create order object
+        order = Order(user=request.user)
+        order.save()
+        
+        #Create order items for order
+        for order_item in order_dict:
+            #get Product, Color, Size, Design, quantity
+            item_product = Product.objects.get(sku=order_item['id'])
+            item_color = Color.objects.get(id=int(order_item['color']))
+            item_size = Size.objects.get(id=int(order_item['size']))
+            item_design = Design.objects.get(id=int(order_item['design']))
+            item_quantity = order_item['quantity']
+            
+            # create designed product
+            designed_product = DesignedProduct(\
+                user = request.user,\
+                product = item_product, \
+                design = item_design,\
+                color = item_color,\
+                size = item_size
+            )
+            
+            designed_product.save()
+            
+            # create orderItem
+            orderItem: OrderItem = OrderItem(\
+                order=order,\
+                product=designed_product,\
+                quantity=item_quantity\
+                )
+            
+            orderItem.save()
+            
+            order.subtotalCost += orderItem.product.product.price
+        
+        # order.shippingCost = 
+        order.taxCost = order.subtotalCost * 0.11
+        order.totalCost = order.subtotalCost + order.taxCost + order.shippingCost
+        
+        order.save()
+        
+        orderSent = True
+            
+    
+    cartForm = forms.cartForm()
+    return render(request, "cart.html", {"cartForm": cartForm, 'orderSent': orderSent})

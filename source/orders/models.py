@@ -22,12 +22,12 @@ class CartItem(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name="customer")
-    address = models.ForeignKey(User, on_delete=models.PROTECT)
-    date = models.DateTimeField()
-    subtotalCost = models.IntegerField()
-    shippingCost = models.IntegerField()
-    taxCost = models.IntegerField()
-    totalCost = models.IntegerField()
+    # address = models.ForeignKey(User, on_delete=models.PROTECT)
+    date = models.DateTimeField(auto_now_add=True)
+    subtotalCost = models.IntegerField(default=0)
+    shippingCost = models.IntegerField(default=0)
+    taxCost = models.IntegerField(default=0)
+    totalCost = models.IntegerField(default=0)
     
 
     class Meta:
@@ -42,12 +42,9 @@ class Order(models.Model):
 
     
 class OrderItem(models.Model):
-
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(DesignedProduct, on_delete=models.PROTECT)
     quantity = models.IntegerField()
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    
 
     class Meta:
         verbose_name = ("OrderItem")

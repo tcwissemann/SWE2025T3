@@ -40,9 +40,13 @@
         <div class="mx-1">Total:</div>
         <div id="total">$0.00</div>
       </div>
+      <form action='' method="POST" id="cart-submit-form">
       <div class="d-flex mx-3 btn custom-button rounded">
-        <div class="mx-1">Order Now<div>
+        {% csrf_token %}
+        {{ cartForm }}
+        <div onclick="submitOrder()" class="mx-1">Order Now<div>
       </div>
+    </form>
     </div>
   </section>
   
@@ -186,5 +190,23 @@
       const cartCookie = getCookie('cart');
       return cartCookie ? JSON.parse(cartCookie) : [];
     }
+
+    function submitOrder(){
+      cartCookie = getCookie("cart")
+      cartInput = document.getElementById("id_cart")
+      cartSubmitForm = document.getElementById("cart-submit-form")
+      console.log(cartCookie)
+      cartInput.value = cartCookie
+      cartSubmitForm.submit()
+    }
+
+    {% if orderSent%}
+    document.addEventListener('DOMContentLoaded', function() {
+      cartCookie = getCookie('cart')
+      setCookie('cart', cartCookie, -1)
+    });
+
+    {% endif %}
+
   </script>
 {% endblock %}
