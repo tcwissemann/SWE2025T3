@@ -53,18 +53,15 @@
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                  <!-- NEW LINK -->
-                  <a class="d-flex align-items-center" href="/designs">My Designs</a>
-                </li>
-                <li class="nav-item">
-                  <!-- NEW LINK -->
                   <a class="d-flex align-items-center" href="/shop">Catalog</a>
                 </li>
                 <li class="nav-item">
-                  <!-- NEW LINK -->
                   <a class="d-flex align-items-center" href="/about">About Us</a>
                 </li>
                 {% if user.is_authenticated %}
+                <li class="nav-item">
+                  <a class="d-flex align-items-center" href="/designs">Design</a>
+                </li>
                 <li class="nav-item">
                     <a class="d-flex align-items-center" href="{% url 'logout' %}">Logout</a>
                 </li>
