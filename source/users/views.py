@@ -2,12 +2,22 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-
+from orders.models import Order, OrderItem
 from .forms import RegisterUserForm
 
 # Create your views here.
 def profile(request):
-    return render(request, 'profile.html')
+    orders = Order.objects.filter(user=request.user).order_by('-date')
+    for order in orders:
+        order_items = OrderItem.objects.filter(order=order)
+        formatted_items = []
+        for idx, item in enumerate(order_items[:2]):
+            formatted_items.append(f"{item.product.product.name}")
+        if len(order_items) > 2:
+            formatted_items.append("...")
+        order.formatted_items = ", ".join(formatted_items)
+        order.display_total = order.totalCost / 100 
+    return render(request, "profile.html", {"orders": orders})
 
 def login_user(request):
     if request.method == 'POST':
