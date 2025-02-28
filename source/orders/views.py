@@ -46,10 +46,10 @@ def cart(request):
             
             orderItem.save()
             
-            order.subtotalCost += orderItem.product.product.price
+            order.subtotalCost += orderItem.product.product.price * orderItem.quantity
         
         # order.shippingCost = 
-        order.taxCost = order.subtotalCost * 0.11
+        order.taxCost = order.subtotalCost * 0.08
         order.totalCost = order.subtotalCost + order.taxCost + order.shippingCost
         
         order.save()
