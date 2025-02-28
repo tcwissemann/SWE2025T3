@@ -113,24 +113,8 @@ a.btn.custom-button {
   color: var(--secondary-font-clr);
 }
 
-.card-group{
-  overflow-x: scroll;
-  width: 100%;
-}
-
-.design-card {
-  padding: 1vh;
-  min-width: 20vh;
-  width: 20vh;
-}
-
 .design-card img{
   max-width: 10vw;
-  max-height: 15vh;
+  max-height: 10vh;
   object-fit: contain;
-}
-
-.clicked-card{
-  border: 4px solid var(--accent-highlight-clr);
-  background-color: var(--accent-clr);
 }

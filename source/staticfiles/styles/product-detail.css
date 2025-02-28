@@ -112,3 +112,14 @@ a.btn.custom-button {
   background-color: var(--accent-clr); 
   color: var(--secondary-font-clr);
 }
+
+.design-card {
+  padding: 1vh;
+  width: 12vh;
+}
+
+.design-card img{
+  max-width: 10vw;
+  max-height: 10vh;
+  object-fit: contain;
+}

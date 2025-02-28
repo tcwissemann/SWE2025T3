@@ -13,7 +13,8 @@ def getUserDesignsContext(request)->tuple[User, list[Design]] | None:
     except django.contrib.auth.models.User.DoesNotExist as e:
         return None
     else:
-        return USER, Design.objects.all().filter(user=USER)
+        # return USER, Design.objects.all().filter(user=USER)
+        return USER, Design.objects.all()
 
 def catalog(request):
     products = Product.objects.all()

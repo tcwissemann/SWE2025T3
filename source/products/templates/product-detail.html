@@ -21,7 +21,7 @@
                 <!-- Color Options -->
                 <div class="color-btns">
                     {% for color in colors %}
-                    <input type="radio" class="rounded" name="color" value="{{ color.name }}" style="background-color: #{{ color.hexValue }}"
+                    <input type="radio" class="rounded" name="color" colorName="{{ color.name }}" value="{{ color.id }}" style="background-color: #{{ color.hexValue }}"
                     {% if forloop.first %} checked {% endif %}>
                     {% endfor %}
                 </div>
@@ -29,7 +29,7 @@
                 <div class="size-btns mb-2">
                     {% for size in sizes %}
                     <label class="size-option rounded">
-                        <input type="radio" name="size" value="{{ size.name }}"
+                        <input type="radio" name="size" sizeName="{{ size.name }}"  value="{{ size.id }}"
                         {% if forloop.first %} checked {% endif %}>
                         <span>{{ size.name }}</span>
                     </label>
@@ -37,13 +37,16 @@
                 </div>
                 <!-- Design Options -->
                 {% if designs != None and designs|length > 0%}
-                <div style="display:flex;flex-direction:row;">
+                <input type="hidden" id="design-selection" name="design" value="">
+                <div class="container card-group">
+                    <div class="d-flex flex-nowrap overflow-auto">
                     {% for design in designs %}
-                    <div style="display:flex;flex-direction:column;padding:1%;background-color:purple">
-                        <img src='{{ design.image.url }}' alt="{{ design.name }}" style="max-width: 10vw; max-height: 10vh;object-fit:contain">
-                        <strong style="color:white">{{ design.name }}</strong>
-                    </div>
+                        <div class="card design-card me-2" value="{{design.id}}" designName="{{ design.name }}"> 
+                            <img src="{{ design.image.url }}" class="card-img-top" alt="{{ design.name }}">
+                            <p class="card-text">{{ design.name }}</p>
+                        </div>
                     {% endfor %}
+                    </div>
                 </div>
                 {% elif designs != None and designs|length == 0  %}
                 <p> You haven't uploaded any designs! </p>
@@ -98,12 +101,21 @@
         
         addToCartBtn.addEventListener('click', function() {
             // Get selected values
-            const productId = "{{ product.id }}";
+            const productId = "{{ product.sku }}";
             const productName = "{{ product.name }}";
             const productPrice = "{{ product.price_in_dollars }}";
+
+            // User Inputs 
             const quantity = document.getElementById('quantity').value;
             const selectedColor = document.querySelector('input[name="color"]:checked').value;
             const selectedSize = document.querySelector('input[name="size"]:checked').value;
+            const selectedDesign = document.querySelector('input[name="design"]').value;
+
+            // Display Info
+            const colorName = document.querySelector('input[name="color"]:checked').valueOf().getAttribute("colorname");
+            const sizeName = document.querySelector('input[name="color"]:checked').valueOf().getAttribute("sizename");
+            const designName = document.querySelector('input[name="color"]:checked').valueOf().getAttribute("designname");
+            const designImgUrl = document.querySelector('input[name="color"]:checked img').src;
             
             // Get current cart from cookie or create new one
             let cart = [];
@@ -121,7 +133,8 @@
                 quantity: parseInt(quantity),
                 color: selectedColor,
                 size: selectedSize,
-                image: "{{ product.imageURL }}"
+                image: "{{ product.imageURL }}",
+                design: parseInt(selectedDesign)
             };
             
             // Check if this item (with same product ID, color, and size) already exists in cart
@@ -151,8 +164,27 @@
                 successMessage.style.display = 'none';
             }, 3000);
         });
+
     });
     
+    // Select design card functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const designSelection = document.querySelector("#design-selection")
+        const cards = document.querySelectorAll(".design-card")
+        cards.forEach(card => {
+            card.addEventListener('click', function() {
+                // Remove 'selected' class from all cards
+                cards.forEach(c => c.classList.remove('clicked-card'));
+
+                // Add 'selected' class to the clicked card
+                this.classList.add('clicked-card');
+
+                // Update the hidden input value
+                designSelection.value = this.valueOf().getAttribute("value");
+            });
+        });
+    });
+
     // Cookie helper functions
     function setCookie(name, value, days) {
         let expires = "";
