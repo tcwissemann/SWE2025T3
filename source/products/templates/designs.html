@@ -3,30 +3,63 @@
 {% load static %}
 
 {% block content %}
+<link rel="stylesheet" href='{% static "styles/website-theme.css" %}' type="text/css">
+<link rel="stylesheet" href='{% static "styles/catalog.css" %}' type="text/css">
+<link rel="stylesheet" href='{% static "styles/design.css" %}' type="text/css">
+<section class="container my-3 py-3">
+    <div class="row">
+        <!-- Sidebar -->
+        <form action='' method='POST' enctype='multipart/form-data' class="col-md-3 mb-3 rounded sidebar">
+            <div class="mb-3">
+                {% csrf_token %}
+                {{ form.as_p }}
+            </div>
+            <div class="image-container mb-3">
+                <span class="preview-text">Preview:</span>
+                <img class="preview-image" src="">
+            </div>            
+            <button type="submit" class="btn custom-button dark w-100">Submit</button>
+        </form>
 
-{% if isLoggedIn %}
-<form action='' method='POST' enctype='multipart/form-data'>
-{% csrf_token %}
-{{ form.as_p }}
-<input type='submit'>
-</form>
-
-<div style='display:flex;flex-direction:row;'>
-
-    {% for design in designs %}
-        <div style='padding:10px 30px;display:flex;flex-direction:column;'>
-            <img src="{{ design.image.url }}" width=200>
-            <strong>{{ design.name }}</strong>
-            <p>{{ design.user.username }}</p>
-            <button action='' >Delete</button>
+        <!-- Design Grid -->
+        <div class="col-md-9 product-grid">
+            <h1 class="page-title mb-3 rounded">Designs</h1>
+            <div class="row">
+                {% if designs %}
+                    {% for design in designs %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <img src="{{ design.image.url }}" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ design.name }}</h5>
+                                <p class="card-text">{{ design.user.username }}</p>
+                                <button action='' class="btn custom-button mini">Delete Image</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-center" style="font-weight: 700;">No Images Uploaded</p>
+                {% endif %}
+            </div>
         </div>
-    {% endfor %}
+</section>
+<script>
+    // JS to show preview image
+    document.addEventListener("DOMContentLoaded", function () {
+        const imageUpload = document.querySelector("input[type=file]");
+        const previewImage = document.querySelector(".preview-image");
 
-</div>
-{% else %}
-
-<h1> Please Log In to upload a design </h1>
-
-{% endif %}
-
+        imageUpload.addEventListener("change", function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImage.setAttribute("src", e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+</script>
 {% endblock %}
