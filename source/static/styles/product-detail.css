@@ -1,3 +1,7 @@
+p {
+  color: white;
+}
+
 input[type="radio"] {
   -webkit-appearance: none;
   -moz-appearance: none;

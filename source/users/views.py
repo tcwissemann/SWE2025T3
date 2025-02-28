@@ -46,3 +46,6 @@ def register_user(request):
     else:
         form = RegisterUserForm()
     return render(request, 'authenticate/register.html', {'form': form})
+
+def reset_password(request):
+    return render(request, 'authenticate/reset-password.html')
