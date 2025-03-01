@@ -140,6 +140,7 @@ a.btn.custom-button {
   white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis;
+  padding: 0px 5px;
 }
 
 .clicked-card{
