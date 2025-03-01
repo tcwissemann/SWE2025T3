@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from . import forms
 import json
 from .models import Order, OrderItem
@@ -55,7 +56,11 @@ def cart(request):
         order.save()
         
         orderSent = True
-            
-    
+        
+        messages.success(request, "Successful Order")
+        
+        return redirect('profile')
+
+        
     cartForm = forms.cartForm()
     return render(request, "cart.html", {"cartForm": cartForm, 'orderSent': orderSent})
