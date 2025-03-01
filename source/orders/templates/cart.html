@@ -201,9 +201,11 @@
       cartCookie = getCookie("cart")
       cartInput = document.getElementById("id_cart")
       cartSubmitForm = document.getElementById("cart-submit-form")
-      console.log(cartCookie)
-      cartInput.value = cartCookie
-      cartSubmitForm.submit()
+      if (cartCookie) {
+        cartInput.value = cartCookie;
+        setCookie("cart", "", -1);
+        cartSubmitForm.submit();
+      }
     }
 
     {% if orderSent%}
