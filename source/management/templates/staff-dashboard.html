@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block title %} Staff Dashboard {% endblock %}
+{% load static %}
+
+{% block content %}
+
+<h1>Staff Dashboard</h1>
+
+<h2>Unclaimed Orders</h2>
+<table>
+    <tr>
+        <th>Customer</th>
+        <th>Order</th>
+        <th>Date</th>
+    </tr>
+{% for order in orders %}
+    <tr>
+        <td>{{order.user}}</td>
+        <td></td>
+        <td>{{order.date|date:"M d, Y" }}</td>
+    </tr>
+{% endfor %}
+</table>
+{% endblock %}<td></td>

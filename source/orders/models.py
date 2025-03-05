@@ -20,6 +20,12 @@ class CartItem(models.Model):
     def get_absolute_url(self):
         return reversed("CartItem_detail", kwargs={"pk": self.pk})
 
+ORDER_STATUS_CHOICES = [
+    ("PL", "Placed"),
+    ("PR", "Processing"),
+    ("SH", "Shipped")
+]
+
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT, related_name="customer")
     # address = models.ForeignKey(User, on_delete=models.PROTECT)
@@ -28,7 +34,8 @@ class Order(models.Model):
     shippingCost = models.IntegerField(default=0)
     taxCost = models.IntegerField(default=0)
     totalCost = models.IntegerField(default=0)
-    
+    status = models.CharField(max_length=2, choices=ORDER_STATUS_CHOICES)
+    claim = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         verbose_name = ("Order")

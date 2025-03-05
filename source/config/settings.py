@@ -29,6 +29,9 @@ env = environ.Env(
 )
 
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+print(os.path.join(BASE_DIR,'.env'))
+
+print(env("AWS_SECRET_ACCESS_KEY"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -38,6 +41,7 @@ DEBUG = env("DEBUG")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
+print(env("DB_PASSWORD"))
 
 # allows droplet ip & localhost ip
 ALLOWED_HOSTS = ['134.122.122.129', 'localhost', '127.0.0.1']
@@ -61,6 +65,7 @@ INSTALLED_APPS = [
     'orders',
     'mainpage',
     'storages',
+    'management',
 ]
 
 MIDDLEWARE = [
