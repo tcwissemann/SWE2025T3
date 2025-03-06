@@ -4,22 +4,6 @@ from products.models import DesignedProduct
 
 # Create your models here.
 
-class CartItem(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(DesignedProduct, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
-    dateTimeAdded = models.DateTimeField(auto_now=False, auto_now_add=True)
-
-    class Meta:
-        verbose_name = ("CartItem")
-        verbose_name_plural = ("CartItems")
-
-    def __str__(self):
-        return f"{self.user.username} | {self.quantity} {self.product}"
-
-    def get_absolute_url(self):
-        return reversed("CartItem_detail", kwargs={"pk": self.pk})
-
 ORDER_STATUS_CHOICES = [
     ("PL", "Placed"),
     ("PR", "Processing"),
