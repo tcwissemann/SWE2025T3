@@ -6,18 +6,28 @@
 <h1>Staff Dashboard</h1>
 
 <h2>Unclaimed Orders</h2>
-<table>
+<table style="">
     <tr>
-        <th>Customer</th>
+        <th>Order #</th>
         <th>Order</th>
         <th>Date</th>
+        <th>Claim</th>
     </tr>
 {% for order in orders %}
     <tr>
-        <td>{{order.user}}</td>
-        <td></td>
-        <td>{{order.date|date:"M d, Y" }}</td>
+        <td>{{ order.number }}
+        <td>Item 1, Item 2, Item 3, ...</td>
+        <td>{{ order.date}}</td>
+        <td><button>Claim Order</button></td>
     </tr>
+
+    <style>
+        table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        }
+
+    </style>
 {% endfor %}
 </table>
 {% endblock %}<td></td>
