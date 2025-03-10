@@ -16,5 +16,8 @@ def about_swapnil(request):
 def about_thomas(request):
     return render(request, "thomas.html")
 
+def about_paloma(request):
+    return render(request, "paloma.html")
+
 def about_template(request):
     return render(request, "bio-template.html")
