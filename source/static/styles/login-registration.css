@@ -6,17 +6,21 @@
 
 .login-container {
   width: 100%;
-  background-color: var(--accent-clr);
   color: white;
   padding: 20px;
+  border: 4px solid var(--accent-clr);
   border-radius: 8px;
 }
 
 .login-input, input {
-  background-color: var(--accent-highlight-clr) !important;
+  background-color: var(--accent-clr) !important;
   border: none !important;
   color: white !important;
   margin-bottom: 5px;
+}
+
+.login-input:focus, input:focus {
+  background-color: var(--accent-highlight-clr) !important; 
 }
 
 label {
