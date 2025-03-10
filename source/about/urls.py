@@ -7,5 +7,6 @@ urlpatterns = [
     path('jocelyn/', views.about_jocelyn, name='jocelyn'),
     path('swapnil/', views.about_swapnil, name='swapnil'),
     path('thomas/', views.about_thomas, name='thomas'),
+    path('paloma/', views.about_paloma, name='paloma'),
     path('template/', views.about_template, name='template'),
 ]

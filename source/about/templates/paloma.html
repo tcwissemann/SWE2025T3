@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block title %} About Paloma {% endblock %}
+{%load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static "styles/bio-styles.css" %}" type="text/css">
+<div class="about-section my-3 py-3">
+  <div class="about-grid">
+    <div class="back-btn"><a href="../">BACK</a></div>
+    <div class="back-btn col-span-2"><a href="https://github.com/pescobed">GITHUB</a></div>
+    <div class="image row-span-3"><img class="profile" src="{% static "/images/PalomaHeadshot.jpeg" %}" alt="Paloma" title="Paloma"></div>
+    <div class="text col-span-2">
+        I'm Paloma, computer science major with a minor in graphic design! I'm also passionate about art and crafting. I love combining my creativity with technology by creating redesigns of brands. From their logo to their web systems. Overall this semester, I hope to improve my full stack skills while working on a project that I am passionate about.
+    </div>
+    <div class="image"><img src="https://www.artic.edu/iiif/2/3c27b499-af56-f0d5-93b5-a7f2f1ad5813/full/843,/0/default.jpg" alt="WaterLillies" title="WaterLillies"></div>
+    <div class="image"><img src="{% static "images/FriendsInLondon.jpeg" %}" alt="London" title="London"></div>
+    <div class="text">
+        This is my favorite painting at the moment.
+    </div>
+    <div class="text">
+        This was over winter break when I took a trip abroad to London, England.
+    </div>
+  </div>
+</div>
+{% endblock %}
