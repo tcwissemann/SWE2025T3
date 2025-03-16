@@ -8,15 +8,20 @@ from .forms import RegisterUserForm
 # Create your views here.
 def profile(request):
     orders = Order.objects.filter(user=request.user).order_by('-date')
+    
     for order in orders:
         order.order_number = f"#{str(order.id).zfill(6)}"
+
         order_items = OrderItem.objects.filter(order=order)
         formatted_items = [item.product.product.name for item in order_items[:2]]
         if len(order_items) > 2:
             formatted_items.append("...")
         order.formatted_items = ", ".join(formatted_items)
         order.display_total = order.totalCost / 100
+        order.status_display = order.get_status_display()
+
     return render(request, "profile.html", {"orders": orders})
+
 
 def login_user(request):
     if request.method == 'POST':
