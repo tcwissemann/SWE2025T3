@@ -1,4 +1,5 @@
-{% extends "base.html" %} {% block title %} Staff Page {% endblock %}
+{% extends "base.html" %}
+{% block title %} Staff Page {% endblock %}
 {% load static %}
 
 {% block content %}
@@ -21,6 +22,7 @@
                     <th>Order</th>
                     <th>Date</th>
                     <th>Details</th>
+                    <th>Cancel</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,16 +32,23 @@
                     <td>{{ order.items }}</td>
                     <td>{{ order.date }}</td>
                     <td>
-                        <a href="{{ order.get_absolute_url }}" class="btn custom-button rounded light">View</a>
+                        <a href="/staff/order-detail/{{ order.id}}/" class="btn custom-button rounded light">View</a>
+                    </td>
+                    <td>
+                        <form action="" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="cancel_order_id" value="{{ order.id }}">
+                            <button type="submit" class="btn btn-danger btn-sm">X</button>
+                        </form>
                     </td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="4" class="text-center">No orders found.</td>
+                    <td colspan="5" class="text-center">No orders found.</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-  </section>
+</section>
 {% endblock %}
