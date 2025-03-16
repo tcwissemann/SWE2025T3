@@ -18,7 +18,7 @@ class Order(models.Model):
     shippingCost = models.IntegerField(default=0)
     taxCost = models.IntegerField(default=0)
     totalCost = models.IntegerField(default=0)
-    status = models.CharField(max_length=2, choices=ORDER_STATUS_CHOICES)
+    status = models.CharField(max_length=2, choices=ORDER_STATUS_CHOICES, default="PL")
     claim = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:
