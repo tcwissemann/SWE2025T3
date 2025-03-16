@@ -31,7 +31,7 @@
               <tr class="rounded text-center">
                   <td>{{ order.order_number }}</td>
                   <td>{{ order.formatted_items }}</td>
-                  <td>Order Placed</td>
+                  <td>{{ order.status_display }}</td>
                   <td>{{ order.display_total|floatformat:2 }}</td>
               </tr>
               {% empty %}
