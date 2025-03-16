@@ -4,39 +4,41 @@
 {% block content %}
 <link rel="stylesheet" href='{% static "styles/website-theme.css" %}' type="text/css">
 <link rel="stylesheet" href='{% static "styles/catalog.css" %}' type="text/css">
-<link rel="stylesheet" href='{% static "styles/product-detail.css" %}' type="text/css">
-<link rel="stylesheet" href='{% static "styles/order.css" %}' type="text/css">
 <link rel="stylesheet" href='{% static "styles/profile.css" %}' type="text/css">
 
-<h2>Unclaimed Orders</h2>
-<table style="">
-    <tr>
-        <th>Order #</th>
-        <th>Order</th>
-        <th>Date</th>
-        <th>Claim</th>
-    </tr>
-{% for order in orders %}
-    <tr>
-        <td>{{ order.number }}
-        <td>{{ order.items }}</td>
-        <td>{{ order.date }}</td>
-        <td>
-            <form action="" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="order_id" value="{{ order.id }}">
-            <input type="submit">
-            </form>
-        </td>
-    </tr>
-
-    <style>
-        table, th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-        }
-
-    </style>
-{% endfor %}
-</table>
-{% endblock %}<td></td>
+<section class="container my-3 py-3">
+    <h1 class="page-title mb-3 rounded">Order Dashboard</h1>
+    <div class="card p-4">
+        <table class="order-table">
+            <thead>
+                <tr class="table-labels text-center">
+                    <th>Order #</th>
+                    <th>Order</th>
+                    <th>Date</th>
+                    <th>Claim</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr class="rounded text-center">
+                    <td>{{ order.number }}</td>
+                    <td>{{ order.items }}</td>
+                    <td>{{ order.date }}</td>
+                    <td>
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="order_id" value="{{ order.id }}">
+                            <input type="submit" class="btn custom-button light">
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No orders found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+  </section>
+{% endblock %}
