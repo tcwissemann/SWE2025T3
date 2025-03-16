@@ -4,41 +4,42 @@
 {% block content %}
 <link rel="stylesheet" href='{% static "styles/website-theme.css" %}' type="text/css">
 <link rel="stylesheet" href='{% static "styles/catalog.css" %}' type="text/css">
-<link rel="stylesheet" href='{% static "styles/product-detail.css" %}' type="text/css">
-<link rel="stylesheet" href='{% static "styles/order.css" %}' type="text/css">
 <link rel="stylesheet" href='{% static "styles/profile.css" %}' type="text/css">
 
-<h1>Staff Dashboard</h1>
-<div class="text-center">
-    <img src="{% static 'images/fish-pillow.jpg' %}" class="profile-img rounded-circle" width="100" height="100"
-        alt="Profile Picture">
-    <h2 class="mt-2">{{ user.username }}</h2>
-</div>
-<h2>Claimed Orders</h2>
-<table style="">
-    <tr>
-        <th>Order #</th>
-        <th>Order</th>
-        <th>Date</th>
-        <th>Details</th>
-    </tr>
-{% for order in orders %}
-    <tr>
-        <td>{{ order.number }}
-        <td>{{ order.items }}</td>
-        <td>{{ order.date }}</td>
-        <td>
-            <a><button>View Order</button></a>
-        </td>
-    </tr>
-
-    <style>
-        table, th, td {
-        border: 1px solid black;
-        border-collapse: collapse;
-        }
-
-    </style>
-{% endfor %}
-</table>
-{% endblock %}<td></td>
+<section class="container my-3 py-3">
+    <div class="card p-4">
+        <div class="text-center">
+            <img src="{% static 'images/fish-pillow.jpg' %}" class="profile-img rounded-circle" width="100" height="100"
+                alt="Profile Picture">
+            <h2 class="mt-2">{{ user.username }}</h2>
+        </div>
+        <h4 class="text-center">Claimed Orders</h4>
+        <table class="order-table">
+            <thead>
+                <tr class="table-labels text-center">
+                    <th>Order #</th>
+                    <th>Order</th>
+                    <th>Date</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr class="rounded text-center">
+                    <td>{{ order.number }}</td>
+                    <td>{{ order.items }}</td>
+                    <td>{{ order.date }}</td>
+                    <td>
+                        <a href="{{ order.get_absolute_url }}" class="btn custom-button rounded light">View</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No orders found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+  </section>
+{% endblock %}
