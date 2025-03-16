@@ -123,8 +123,14 @@ section.container {
   transition: all 0.1s ease;
 }
 
+.custom-button.light {
+  background-color: var(--main-bkg-clr);
+  color: var(--accent-clr);
+}
+
 .custom-button:hover {
   background-color: var(--accent-highlight-clr);
+  color: var(--secondary-font-clr);
 }
 
 .about {
