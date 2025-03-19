@@ -25,7 +25,7 @@ def staff_dashboard(request):
         order_info['id'] = order.id
         order_info['date'] = order.date.strftime('%d/%m/%Y - %H:%M%p')
         order_items = OrderItem.objects.filter(order=order)
-        formatted_items = [item.product.product.name for item in order_items[:2]]
+        formatted_items = [item.product.name for item in order_items[:2]]
         if len(order_items) > 2:
             formatted_items.append("...")
         formatted_items = ", ".join(formatted_items)
@@ -56,7 +56,7 @@ def staff_profile(request):
         order_info['id'] = order.id
         order_info['date'] = order.date.strftime('%d/%m/%Y - %H:%M%p')
         order_items = OrderItem.objects.filter(order=order)
-        formatted_items = [item.product.product.name for item in order_items[:2]]
+        formatted_items = [item.product.name for item in order_items[:2]]
         if len(order_items) > 2:
             formatted_items.append("...")
         formatted_items = ", ".join(formatted_items)
@@ -73,16 +73,14 @@ def order_detail(request, order_id):
     
     for item in order_items:
         item_info = {}
-
-        designed_product = item.product
         
-        item_info['product_name'] = designed_product.product.name
-        item_info['image'] = designed_product.product.imageURL
-        item_info['designname'] = designed_product.design.name
-        item_info['designurl'] = designed_product.design.image
-        item_info['colorname'] = designed_product.color.name
-        item_info['sizename'] = designed_product.size.name
-        item_info['price'] = designed_product.product.price / 100
+        item_info['product_name'] = item.product.name
+        item_info['image'] = item.product.imageURL
+        item_info['designname'] = item.design.name
+        item_info['designurl'] = item.design.image
+        item_info['colorname'] = item.color.name
+        item_info['sizename'] = item.size.name
+        item_info['price'] = item.product.price / 100
         item_info['quantity'] = item.quantity
         
         order_items_data.append(item_info)

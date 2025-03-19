@@ -70,21 +70,3 @@ class Size(models.Model):
 
     def get_absolute_url(self):
         return reversed("Size_detail", kwargs={"pk": self.pk})
-
-
-class DesignedProduct(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    design = models.ForeignKey(Design, on_delete=models.CASCADE)
-    color = models.ForeignKey(Color, on_delete=models.CASCADE)
-    size = models.ForeignKey(Size, on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name = "DesignedProduct"
-        verbose_name_plural = "DesignedProducts"
-
-    def __str__(self):
-        return f"{self.user} | {self.color.name} {self.size.name} {self.product.name} | {self.design.name}"
-
-    def get_absolute_url(self):
-        return reversed("DesignedProduct_detail", kwargs={"pk": self.pk})

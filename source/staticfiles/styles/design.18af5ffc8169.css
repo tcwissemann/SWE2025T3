@@ -1,0 +1,41 @@
+* {
+  color: white;
+}
+
+form input, form label,
+label[for="id_image"]::after  {
+  border-radius: 2px;
+  width: 100%;
+}
+
+form input, label[for="id_image"]::after {
+  padding: 5px;
+}
+
+form p {
+  display: block;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+label[for="id_image"]::after {
+  display: block;
+  text-align: center;
+  content: 'Upload';
+  background-color: var(--accent-clr);
+  font-weight: 400;
+}
+
+.preview-image {
+  width: 100%;
+  max-height: 200px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.preview-text {
+  font-weight: 500;
+}

@@ -3,7 +3,7 @@ from django.contrib import messages
 from . import forms
 import json
 from .models import Order, OrderItem
-from products.models import Product, Color, Size, Design, DesignedProduct
+from products.models import Product, Color, Size, Design
 
 # Create your views here.
 def cart(request):
@@ -27,27 +27,19 @@ def cart(request):
             item_design = Design.objects.get(id=int(order_item['design']))
             item_quantity = order_item['quantity']
             
-            # create designed product
-            designed_product = DesignedProduct(\
-                user = request.user,\
-                product = item_product, \
-                design = item_design,\
-                color = item_color,\
-                size = item_size
-            )
-            
-            designed_product.save()
-            
             # create orderItem
             orderItem: OrderItem = OrderItem(\
-                order=order,\
-                product=designed_product,\
-                quantity=item_quantity\
-                )
+                order=order,
+                quantity=item_quantity,
+                product=item_product,
+                design=item_design,
+                color=item_color,
+                size=item_size
+            )
             
             orderItem.save()
             
-            order.subtotalCost += orderItem.product.product.price * orderItem.quantity
+            order.subtotalCost += orderItem.product.price * orderItem.quantity
         
         # order.shippingCost = 
         order.taxCost = order.subtotalCost * 0.08

@@ -13,7 +13,7 @@ def profile(request):
         order.order_number = f"#{str(order.id).zfill(6)}"
 
         order_items = OrderItem.objects.filter(order=order)
-        formatted_items = [item.product.product.name for item in order_items[:2]]
+        formatted_items = [item.product.name for item in order_items[:2]]
         if len(order_items) > 2:
             formatted_items.append("...")
         order.formatted_items = ", ".join(formatted_items)

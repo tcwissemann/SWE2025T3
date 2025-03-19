@@ -1,0 +1,38 @@
+.login-form {
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login-container {
+  width: 100%;
+  background-color: var(--accent-clr);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.login-input, input {
+  background-color: var(--accent-highlight-clr) !important;
+  border: none !important;
+  color: white !important;
+  margin-bottom: 5px;
+}
+
+label {
+  padding-bottom: 5px !important;
+}
+
+.forgot-password {
+  color: white;
+  text-decoration: none;
+  transition: 0.1s ease-in-out;
+}
+
+.forgot-password:hover {
+  color: var(--accent-highlight-clr);
+}
+
+.submit-btn {
+  background-color: var(--accent-highlight-clr);
+}

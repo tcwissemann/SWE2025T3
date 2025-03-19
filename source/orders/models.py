@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from products.models import DesignedProduct
-
-# Create your models here.
+from products.models import Product, Design, Size, Color
 
 ORDER_STATUS_CHOICES = [
     ("PL", "Placed"),
@@ -11,8 +9,7 @@ ORDER_STATUS_CHOICES = [
 ]
 
 class Order(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT, related_name="customer")
-    # address = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="customer")
     date = models.DateTimeField(auto_now_add=True)
     subtotalCost = models.IntegerField(default=0)
     shippingCost = models.IntegerField(default=0)
@@ -34,15 +31,18 @@ class Order(models.Model):
     
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    product = models.ForeignKey(DesignedProduct, on_delete=models.PROTECT)
     quantity = models.IntegerField()
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    design = models.ForeignKey(Design, on_delete=models.CASCADE)
+    color = models.ForeignKey(Color, on_delete=models.CASCADE)
+    size = models.ForeignKey(Size, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = ("OrderItem")
         verbose_name_plural = ("OrderItems")
 
     def __str__(self):
-        return f"{self.user} | {self.quantity} | {self.product}"
+        return f"{self.quantity} | {self.product.name} | {self.design.name}"
 
     def get_absolute_url(self):
         return reversed("OrderItem_detail", kwargs={"pk": self.pk})
