@@ -1,9 +1,15 @@
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.models import User
 from orders.models import Order, OrderItem
 from .forms import ClaimOrderForm
 from django.contrib import messages
 # Create your views here.
 
+def isStaffCheck(user: User):
+    return user.is_staff
+
+@user_passes_test(isStaffCheck)
 def staff_dashboard(request):
     
     if request.method == 'POST':
@@ -36,6 +42,7 @@ def staff_dashboard(request):
     
     return render(request, 'staff-dashboard.html', {"orders":orders})
 
+@user_passes_test(isStaffCheck)
 def staff_profile(request):
     staff_user = request.user
 
@@ -65,6 +72,7 @@ def staff_profile(request):
     
     return render(request, 'staff-profile.html', {'user': staff_user, 'orders': orders})
 
+@user_passes_test(isStaffCheck)
 def order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     order_items = OrderItem.objects.filter(order=order)
@@ -98,7 +106,8 @@ def order_detail(request, order_id):
         'order_items': order_items_data,
         'order_summary': order_summary
     })
-
+    
+@user_passes_test(isStaffCheck)
 def update_order_status(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     

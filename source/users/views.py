@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.forms import UserCreationForm
@@ -6,6 +7,7 @@ from orders.models import Order, OrderItem
 from .forms import RegisterUserForm
 
 # Create your views here.
+@login_required()
 def profile(request):
     orders = Order.objects.filter(user=request.user).order_by('-date')
     

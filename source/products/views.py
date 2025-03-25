@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from .models import Product, Size, Color, Design
 from . import forms
@@ -107,6 +108,7 @@ def update_quantity(request, item_id):
     response.set_cookie('cart', json.dumps(cart), max_age=604800)
     return response
 
+@login_required()
 def designs(request):
     userDesignsContext: tuple[User, list[Design]] = getUserDesignsContext(request)
     if userDesignsContext == None:
