@@ -62,10 +62,10 @@
           <form method="POST" action="{% url 'update_order_status' order.id %}" id="statusForm">
             {% csrf_token %}
             <select name="order_status" id="orderStatus" class="form-select" onchange="this.form.submit()" style="color: var(--accent-clr); border: none;">
-                <option value="PL" {% if order.status == 'PL' %}selected{% endif %}>Placed</option>
-                <option value="PR" {% if order.status == 'PR' %}selected{% endif %}>Processing</option>
-                <option value="SH" {% if order.status == 'SH' %}selected{% endif %}>Shipped</option>
-            </select>
+              {% for code, label in status_choices %}
+                  <option value="{{ code }}" {% if order.status == code %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>   
           </form>
         </div>
       </div>
