@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User
-from orders.models import Order, OrderItem
+from orders.models import Order, OrderItem, ORDER_STATUS_CHOICES
 from .forms import ClaimOrderForm
 from django.contrib import messages
 # Create your views here.
@@ -54,7 +54,8 @@ def staff_profile(request):
         
         return redirect('Staff Profile')
     
-    claimed_orders = Order.objects.filter(claim=staff_user).exclude(status='SH')
+    last_status_key = ORDER_STATUS_CHOICES[-1][0]
+    claimed_orders = Order.objects.filter(claim=staff_user).exclude(status=last_status_key)
     orders = []
     
     for order in claimed_orders:
@@ -104,7 +105,8 @@ def order_detail(request, order_id):
     return render(request, 'staff-order-detail.html', {
         'order': order,
         'order_items': order_items_data,
-        'order_summary': order_summary
+        'order_summary': order_summary,
+        "status_choices": ORDER_STATUS_CHOICES
     })
     
 @user_passes_test(isStaffCheck)
@@ -113,17 +115,11 @@ def update_order_status(request, order_id):
     
     if request.method == 'POST':
         new_status = request.POST.get('order_status')
-
-        status_messages = {
-            'PL': 'Placed',
-            'PR': 'Processing',
-            'SH': 'Shipped',
-        }
         
-        if new_status in status_messages:
+        if new_status in dict(ORDER_STATUS_CHOICES).keys():
             order.status = new_status
             order.save()
-            messages.success(request, f"Order status updated to {status_messages[new_status]}.")
+            messages.success(request, f"Order status updated to {dict(ORDER_STATUS_CHOICES)[new_status]}.")
         else:
             messages.error(request, "Invalid status.")
     
