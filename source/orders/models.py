@@ -5,7 +5,8 @@ from products.models import Product, Design, Size, Color
 ORDER_STATUS_CHOICES = [
     ("PL", "Placed"),
     ("PR", "Processing"),
-    ("SH", "Shipped")
+    ("SH", "Shipped"),
+    ("CM", "Complete")
 ]
 
 class Order(models.Model):
