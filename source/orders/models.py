@@ -6,7 +6,8 @@ ORDER_STATUS_CHOICES = [
     ("PL", "Placed"),
     ("PR", "Processing"),
     ("SH", "Shipped"),
-    ("CO", "Completed")
+    ("DV", "Delivered"),
+    ("CM", "Completed")
 ]
 
 class Order(models.Model):
@@ -16,7 +17,7 @@ class Order(models.Model):
     shippingCost = models.IntegerField(default=0)
     taxCost = models.IntegerField(default=0)
     totalCost = models.IntegerField(default=0)
-    status = models.CharField(max_length=2, choices=ORDER_STATUS_CHOICES, default="PL")
+    status = models.CharField(max_length=2, choices=ORDER_STATUS_CHOICES, default=ORDER_STATUS_CHOICES[0][0])
     claim = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     class Meta:
