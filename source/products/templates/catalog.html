@@ -14,7 +14,7 @@
                 <label for="category">Category</label>
                 <select id="category" name="category" class="form-select">
                     <option value="all">All</option>
-                    <option value="shirts">Shirts</option>
+                    {% comment %} <option value="shirts">Shirts</option>
                     <option value="stickers">Stickers</option>
                     <option value="mugs">Mugs</option>
                     <option value="cards">Cards</option>
@@ -22,14 +22,14 @@
                     <option value="pillows">Pillows</option>
                     <option value="journals">Journals</option>
                     <option value="backpacks">Backpacks</option>
-                    <option value="posters">Posters</option>
+                    <option value="posters">Posters</option> {% endcomment %}
                 </select>
             </div>
             <div class="mb-3">
                 <label for="priceRange">Price Range</label>
                 <div class="d-flex">
-                    <input type="number" name="min_price" id="min_price" class="form-control me-2" placeholder="Min" min="0" max="99" oninput="updateMax()">
-                    <input type="number" name="max_price" id="max_price" class="form-control" placeholder="Max" min="0" max="99" oninput="updateMin()">
+                    <input type="number" name="min_price" id="min_price" class="form-control me-2" placeholder="Min" min="0" max="3000" oninput="updateMax()">
+                    <input type="number" name="max_price" id="max_price" class="form-control" placeholder="Max" min="0" max="3000" oninput="updateMin()">
                 </div>
             </div>
             <button type="submit" class="btn custom-button dark w-100">Search</button>
@@ -45,7 +45,7 @@
                         <a href="{{ product.get_absolute_url }}"><img src="{{ product.imageURL }}" class="card-img-top" alt="{{ product.name }}"></a>
                         <div class="card-body">
                             <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text">${{ product.price_in_dollars }}</p>
+                            <p class="card-text">{{ product.price_in_dollars }}</p>
                             <a href="{{ product.get_absolute_url }}" class="btn custom-button mini">View Item</a>
                         </div>
                     </div>
@@ -64,27 +64,69 @@
     const categorySelect = document.querySelector('#category');
     const minPriceSelect = document.querySelector('#min_price');
     const maxPriceSelect = document.querySelector('#max_price');
+    const searchButton = document.querySelector('.btn.custom-button.dark');
 
     if (category) {
-        categorySelect.value = category;
+        categorySelect.value = all;
     }
     if (minPrice) {
-        if (!maxPrice) maxPriceSelect.value = 99;
         minPriceSelect.value = minPrice;
     }
     if (maxPrice) {
-        if (!minPrice) minPriceSelect.value = 0;
         maxPriceSelect.value = maxPrice;
     }
 
     function updateMax() {
         const minPrice = document.getElementById('min_price').value;
-        document.getElementById('max_price').min = minPrice ? Number(minPrice) + 1 : 0;
+        const maxPriceInput = document.getElementById('max_price');
+    
+        if (minPrice) {
+            maxPriceInput.min = Number(minPrice) + 1;
+            if (maxPriceInput.value && Number(maxPriceInput.value) <= Number(minPrice)) {
+                maxPriceInput.value = Number(minPrice) + 1;
+            }
+        } else {
+            maxPriceInput.min = 0;
+        }
+        //check if the max value is less than the min, and correct it.
+        if (maxPriceInput.value && Number(maxPriceInput.value) < Number(maxPriceInput.min)) {
+            maxPriceInput.value = maxPriceInput.min;
+        }
+        
     }
 
     function updateMin() {
         const maxPrice = document.getElementById('max_price').value;
-        document.getElementById('min_price').max = maxPrice ? Number(maxPrice) - 1 : Infinity;
+        const minPriceInput = document.getElementById('min_price');
+
+        if (maxPrice) {
+            minPriceInput.max = Number(maxPrice) - 1;
+            if (minPriceInput.value >= Number(maxPrice)) {
+                minPriceInput.value = Number(maxPrice) - 1;
+            }
+        } else {
+            minPriceInput.max = Infinity;
+        }
+        //check if the min value is greater than the max, and correct it.
+        if (Number(minPriceInput.value) > Number(minPriceInput.max)){
+            minPriceInput.value = minPriceInput.max;
+        }
     }
+    searchButton.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        // Update min and max attributes before fetching
+        updateMax();
+        updateMin();
+
+        const minPriceValue = minPriceSelect.value;
+        const maxPriceValue = maxPriceSelect.value;
+
+        if (minPriceValue) {
+            url += `&min_price=${minPriceValue}`;
+        }
+        if (maxPriceValue) {
+            url += `&max_price=${maxPriceValue}`;
+        }
 </script>
 {% endblock %}

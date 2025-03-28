@@ -18,20 +18,22 @@ def getUserDesignsContext(request)->tuple[User, list[Design]] | None:
         return USER, Design.objects.all().filter(user=USER)
 
 def catalog(request):
-    products = Product.objects.all()
-    
-    category = request.GET.get('category')
-    if category and category != 'all':
-        products = products.filter(name__icontains=category)
-
+    category = request.GET.get('category', 'all')
     min_price = request.GET.get('min_price')
     max_price = request.GET.get('max_price')
-    if min_price:
-        products = products.filter(price__gte=int(min_price))
-    if max_price:
-        products = products.filter(price__lte=int(max_price))
 
-    return render(request, "catalog.html", {'products': products})
+    products = Product.objects.all()
+
+    if category != 'all':
+        products = products.filter(category=category)
+
+    if min_price:
+        products = products.filter(price__gte=int(min_price) * 100)
+    if max_price:
+        products = products.filter(price__lte=int(max_price) * 100)
+
+    context = {'products': products}
+    return render(request, 'catalog.html', context)
 
 def product(request, pk):
     product = get_object_or_404(Product, pk=pk)
@@ -125,3 +127,6 @@ def designs(request):
     
     form = forms.DesignForm()
     return render(request, 'designs.html', {"isLoggedIn": True, 'form': form, 'designs': userDesignsContext[1]})
+
+from django.shortcuts import render
+from .models import Product  # Replace with your actual app name
