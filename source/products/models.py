@@ -8,11 +8,11 @@ class Product(models.Model):
     sku = models.CharField(max_length=4, primary_key=True)
     name = models.CharField(max_length=50)
     imageURL = models.URLField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.IntegerField()
     description = models.TextField()
 
     def price_in_dollars(self):
-        return f"${self.price/ 100:.2f}"
+        return round(self.price / 100.0, 2)
 
     class Meta:
         verbose_name = "Product"
