@@ -127,6 +127,3 @@ def designs(request):
     
     form = forms.DesignForm()
     return render(request, 'designs.html', {"isLoggedIn": True, 'form': form, 'designs': userDesignsContext[1]})
-
-from django.shortcuts import render
-from .models import Product  # Replace with your actual app name
