@@ -45,7 +45,7 @@
                         <a href="{{ product.get_absolute_url }}"><img src="{{ product.imageURL }}" class="card-img-top" alt="{{ product.name }}"></a>
                         <div class="card-body">
                             <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text">{{ product.price_in_dollars }}</p>
+                            <p class="card-text">${{ product.price_in_dollars }}</p>
                             <a href="{{ product.get_absolute_url }}" class="btn custom-button mini">View Item</a>
                         </div>
                     </div>
