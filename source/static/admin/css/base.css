@@ -65,7 +65,8 @@ body {
     font-size: 0.875rem;
     font-family: 'Poppins', sans-serif;
     color: var(--body-fg);
-    background: var(--body-bg);
+    background-image: linear-gradient(var(--accent), black);
+
 }
 
 /* LINKS */
