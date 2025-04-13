@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
-from .models import Product, Size, Color, Design
+from .models import Product, Size, Color, Design, ProductImage
 from . import forms
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -39,6 +39,7 @@ def product(request, pk):
     product = get_object_or_404(Product, pk=pk)
     sizes = Size.objects.filter(productType=product)
     colors = Color.objects.all()
+    productImage = ProductImage.objects.get(product=product)
     
     userDesignsContext = getUserDesignsContext(request)
     designs = userDesignsContext[1] if userDesignsContext != None else None
@@ -47,7 +48,13 @@ def product(request, pk):
         'product': product,
         'sizes': sizes,
         'colors': colors,
-        'designs': designs
+        'designs': designs,
+        'productImage': {
+            'imageURL': productImage.imageURL,
+            'top': productImage.start_y,
+            'left': productImage.start_x,
+            'width': productImage.end_x - productImage.start_x
+        }
     })
 
 def add_to_cart(request, item_id):

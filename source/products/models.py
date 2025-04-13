@@ -24,6 +24,14 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse("Product_detail", kwargs={"pk": self.pk})
 
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    imageURL = models.URLField()
+    start_x = models.IntegerField()
+    start_y = models.IntegerField()
+    end_x = models.IntegerField()
+    end_y = models.IntegerField()
+
 class Design(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)

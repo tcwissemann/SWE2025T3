@@ -40,11 +40,28 @@ input[type="radio"]:checked::after {
   border: 4px solid var(--accent-clr);
 }
 
+.product-image{
+  width: 35vw;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  position: relative;
+}
+
 .expanded-img {
   width: 100%;
   height: 500px;
   object-fit: cover;
   border: 4px solid var(--accent-clr);
+  grid-column: 1 / span 8;
+  grid-row: 1;
+}
+
+#design-image{
+  position: relative;
+  grid-column: 1 / span 8;
+  grid-row: 1;
+  z-index: 1; 
+  object-fit: cover;
 }
 
 a.btn.custom-button {
@@ -146,4 +163,8 @@ a.btn.custom-button {
 .clicked-card{
   border: 4px solid var(--accent-highlight-clr);
   background-color: var(--accent-clr);
+}
+
+#product-image{
+  position: relative;
 }

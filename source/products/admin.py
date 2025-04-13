@@ -7,4 +7,5 @@ admin.site.register([
     Design,
     Color,
     Size,
+    ProductImage,
 ])
