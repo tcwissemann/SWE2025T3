@@ -53,7 +53,14 @@
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav ms-auto">
                 {% if user.is_authenticated %}
-                  {% if user.is_staff %}
+                  {% if user.is_superuser %}
+                  <li class="nav-item">
+                    <a class="d-flex align-items-center" href="/admin">Admin</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="d-flex align-items-center" href="{% url 'logout' %}">Logout</a>
+                  </li>
+                  {% elif user.is_staff %}
                   <li class="nav-item">
                     <a class="d-flex align-items-center" href="/staff/dashboard">Dashboard</a>
                   </li>
@@ -147,14 +154,11 @@
         <div class="col-md-4">
           <h5 class="footer-heading">Quick Links</h5>
           <ul class="list-unstyled">
-            <!-- NEW LINK -->
             <li><a href="/shop">Catalog</a></li>
-            <!-- NEW LINK -->
             <li><a href="/about">About Us</a></li>
-            <!-- NEW LINK -->
-            <li><a href="">Login</a></li>
-            <!-- NEW LINK -->
-            <li><a href="/order">Cart</a></li>
+            <li><a href="/users/login_users">Login</a></li>
+            <li><a href="/users/register_users">Register</a></li>
+            <li><a href="/cart">Cart</a></li>
           </ul>
         </div>
         <div class="col-md-4">
