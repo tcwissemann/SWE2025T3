@@ -45,6 +45,7 @@ input[type="radio"]:checked::after {
   height: 500px;
   object-fit: cover;
   border: 4px solid var(--accent-clr);
+  transition: 0.05s ease-in-out;
 }
 
 a.btn.custom-button {
