@@ -32,9 +32,7 @@ def login_user(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            if user.is_superuser:
-                return redirect('/admin/')
-            elif user.is_staff:
+            if user.is_staff:
                 return redirect('Staff Profile')
             else:
                 return redirect('profile')
