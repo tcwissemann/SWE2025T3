@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from . import forms
 import json
@@ -6,6 +7,7 @@ from .models import Order, OrderItem
 from products.models import Product, Color, Size, Design
 
 # Create your views here.
+@login_required()
 def cart(request):
     
     orderSent = False
