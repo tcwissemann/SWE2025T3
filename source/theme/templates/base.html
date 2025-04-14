@@ -55,13 +55,13 @@
                 {% if user.is_authenticated %}
                   {% if user.is_superuser %}
                   <li class="nav-item">
-                    <a class="d-flex align-items-center" href="/admin">Admin</a>
+                    <a class="d-flex align-items-center" href="/admin">User And Product Management</a>
                   </li>
                   <li class="nav-item">
-                    <a class="d-flex align-items-center" href="/staff/dashboard">Dashboard</a>
+                    <a class="d-flex align-items-center" href="/staff/dashboard">Orders</a>
                   </li>
                   <li class="nav-item">
-                    <a class="d-flex align-items-center" href="/staff">Profile</a>
+                    <a class="d-flex align-items-center" href="/staff">Dashboard</a>
                   </li>
                   <li class="nav-item">
                     <a class="d-flex align-items-center" href="{% url 'logout' %}">Logout</a>
