@@ -52,27 +52,56 @@ def staff_profile(request):
         order_to_cancel = Order.objects.get(id=order_id)
         order_to_cancel.claim = None
         order_to_cancel.save()
-        
+
         return redirect('Staff Profile')
-    
+
     last_status_key = ORDER_STATUS_CHOICES[-1][0]
     claimed_orders = Order.objects.filter(claim=staff_user).exclude(status=last_status_key)
+
     orders = []
-    
     for order in claimed_orders:
-        order_info = {}
-        order_info['number'] = f"#{order.id:06d}"
-        order_info['id'] = order.id
-        order_info['date'] = order.date.strftime('%d/%m/%Y - %H:%M%p')
-        order_items = OrderItem.objects.filter(order=order)
-        formatted_items = [item.product.name for item in order_items[:2]]
-        if len(order_items) > 2:
-            formatted_items.append("...")
-        formatted_items = ", ".join(formatted_items)
-        order_info['items'] = formatted_items
+        order_info = {
+            'number': f"#{order.id:06d}",  # Format order number with leading zeros
+            'id': order.id,
+            'date': order.date.strftime('%d/%m/%Y - %H:%M%p'),  # Format the date
+            'items': ", ".join(
+                [item.product.name for item in OrderItem.objects.filter(order=order)[:2]] +
+                (["..."] if OrderItem.objects.filter(order=order).count() > 2 else [])
+            )
+        }
         orders.append(order_info)
-    
-    return render(request, 'staff-profile.html', {'user': staff_user, 'orders': orders})
+
+    # Fetch the 5 most recently placed orders
+    recent_orders = Order.objects.all().order_by('-date')[:5]
+    recent_orders_info = []
+
+    for order in recent_orders:
+        order_info = {
+            'number': f"#{order.id:06d}",  # Format order number with leading zeros
+            'id': order.id,
+            'date': order.date.strftime('%d/%m/%Y - %H:%M%p'),  # Format the date
+            'items': ", ".join(
+                [item.product.name for item in OrderItem.objects.filter(order=order)[:2]] +
+                (["..."] if OrderItem.objects.filter(order=order).count() > 2 else [])
+            )
+        }
+        recent_orders_info.append(order_info)
+
+    # Fetch the 3 most recent users if the logged-in user is a superuser
+    recent_users = []
+    if request.user.is_superuser:
+        recent_users = User.objects.order_by('-date_joined')[:3]
+
+    # Fetch the 2 most recently active employees (sorted by last login)
+    active_employees = User.objects.filter(is_staff=True).order_by('-last_login')[:2]
+
+    return render(request, 'staff-profile.html', {
+        'user': staff_user,
+        'orders': orders,
+        'recent_users': recent_users,
+        'active_employees': active_employees,
+        'recent_orders': recent_orders_info,
+    })
 
 @user_passes_test(isStaffCheck)
 def order_detail(request, order_id):
