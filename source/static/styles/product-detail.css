@@ -40,7 +40,11 @@ input[type="radio"]:checked::after {
   border: 4px solid var(--accent-clr);
 }
 
-.product-image{
+/* .product-image{
+
+} */
+
+#detail-product-image{
   width: 35vw;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
