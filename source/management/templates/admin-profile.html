@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %} Admin Page {% endblock %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href='{% static "styles/website-theme.css" %}' type="text/css">
+<link rel="stylesheet" href='{% static "styles/catalog.css" %}' type="text/css">
+<link rel="stylesheet" href='{% static "styles/profile.css" %}' type="text/css">
+
+<section class="container my-3 py-3">
+    <div class="card p-4">
+        <div class="text-center">
+            <img src="{% static 'images/fish-pillow.jpg' %}" class="profile-img rounded-circle" width="100" height="100"
+                alt="Profile Picture">
+            <h2 class="mt-2">{{ user.username }}</h2>
+        </div>
+
+        <h4 class="text-center mt-4">Recent Users</h4>
+        <table class="order-table">
+            <thead>
+                <tr class="table-labels text-center">
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Date Registered</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user_item in recent_users %}
+                <tr class="rounded text-center">
+                    <td>{{ user_item.username }}</td>
+                    <td>{{ user_item.email }}</td>
+                    <td>{{ user_item.date_joined }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center">No recent users found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h4 class="text-center mt-4">Active Employees</h4>
+        <table class="order-table">
+            <thead>
+                <tr class="table-labels text-center">
+                    <th>Username</th>
+                    <th>Last Login</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in active_employees %}
+                <tr class="rounded text-center">
+                    <td>{{ employee.username }}</td>
+                    <td>{{ employee.last_login }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2" class="text-center">No active employees found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h4 class="text-center mt-4">Recent Orders</h4>
+        <table class="order-table">
+            <thead>
+                <tr class="table-labels text-center">
+                    <th>Order #</th>
+                    <th>Order</th>
+                    <th>Date</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in recent_orders %}
+                <tr class="rounded text-center">
+                    <td>{{ order.number }}</td>
+                    <td>{{ order.items }}</td>
+                    <td>{{ order.date }}</td>
+                    <td>
+                        <a href="/staff/order-detail/{{ order.id}}/" class="btn custom-button rounded light">View</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No recent orders found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h4 class="text-center mt-4">Claimed Orders</h4>
+        <table class="order-table">
+            <thead>
+                <tr class="table-labels text-center">
+                    <th>Order #</th>
+                    <th>Order</th>
+                    <th>Date</th>
+                    <th>Details</th>
+                    <th>Cancel</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in claimed_orders %}
+                <tr class="rounded text-center">
+                    <td>{{ order.number }}</td>
+                    <td>{{ order.items }}</td>
+                    <td>{{ order.date }}</td>
+                    <td>
+                        <a href="/staff/order-detail/{{ order.id}}/" class="btn custom-button rounded light">View</a>
+                    </td>
+                    <td>
+                        <form action="" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="cancel_order_id" value="{{ order.id }}">
+                            <button type="submit" class="btn btn-danger btn-sm">X</button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No claimed orders found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
