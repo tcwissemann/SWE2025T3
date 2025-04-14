@@ -7,7 +7,6 @@ from django.contrib.auth.models import User
 class Product(models.Model):
     sku = models.CharField(max_length=4, primary_key=True)
     name = models.CharField(max_length=50)
-    imageURL = models.URLField()
     price = models.IntegerField()
     description = models.TextField()
 
