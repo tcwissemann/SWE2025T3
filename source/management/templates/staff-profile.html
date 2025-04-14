@@ -49,6 +49,78 @@
                 {% endfor %}
             </tbody>
         </table>
+        {% if user.is_superuser %}
+        <h4 class="text-center mt-4">Recently Registered Users</h4>
+        <table class="order-table">
+            <thead>
+                <tr class="table-labels text-center">
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Date Joined</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in recent_users %}
+                <tr class="rounded text-center">
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.date_joined|date:"d/m/Y - H:iA" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center">No recent users found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h4 class="text-center mt-4">Most Recently Active Employees</h4>
+        <table class="order-table">
+            <thead>
+                <tr class="table-labels text-center">
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Last Login</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for employee in active_employees %}
+                <tr class="rounded text-center">
+                    <td>{{ employee.username }}</td>
+                    <td>{{ employee.email }}</td>
+                    <td>{{ employee.last_login|date:"d/m/Y - H:iA" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center">No active employees found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h4 class="text-center mt-4">Most Recently Placed Orders</h4>
+        <table class="order-table">
+            <thead>
+                <tr class="table-labels text-center">
+                    <th>Order #</th>
+                    <th>Order</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in recent_orders %}
+                <tr class="rounded text-center">
+                    <td>{{ order.number }}</td>
+                    <td>{{ order.items }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="2" class="text-center">No recent orders found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        {% endif %}
     </div>
 </section>
 {% endblock %}
