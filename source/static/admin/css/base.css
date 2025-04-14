@@ -64,7 +64,7 @@ body {
     padding: 0;
     font-size: 0.875rem;
     font-family: 'Poppins', sans-serif;
-    color: var(--body-fg);
+    color: white !important;
     background-image: linear-gradient(var(--accent), black);
 
 }
@@ -72,13 +72,13 @@ body {
 /* LINKS */
 
 a:link, a:visited {
-    color: var(--link-fg);
+    color: white;
     text-decoration: none;
     transition: color 0.15s, background 0.15s;
 }
 
 a:focus, a:hover {
-    color: var(--link-hover-color);
+    color: white;
 }
 
 a:focus {
@@ -90,7 +90,7 @@ a img {
 }
 
 a.section:link, a.section:visited {
-    color: var(--header-link-color);
+    color: white;
     text-decoration: none;
 }
 
@@ -118,7 +118,7 @@ h1 {
     font-weight: 300;
     font-size: 2 rem;
     font-weight: bold;
-    color: var(--body-quiet-color);
+    color: white;
 }
 
 h2 {
@@ -134,7 +134,7 @@ h2.subhead {
 h3 {
     font-size: 0.875rem;
     margin: .8em 0 .3em 0;
-    color: var(--body-quiet-color);
+    color: white;
     font-weight: bold;
 }
 
@@ -272,7 +272,7 @@ p img, h1 img, h2 img, h3 img, h4 img, td img {
 
 table {
     border-collapse: collapse;
-    border-color: var(--border-color);
+    border-color: white;
 }
 
 td, th {
@@ -290,7 +290,7 @@ th {
 
 thead th,
 tfoot td {
-    color: var(--body-quiet-color);
+    color: white;
     padding: 5px 10px;
     font-size: 0.6875rem;
     background: var(--body-bg);
@@ -305,7 +305,7 @@ tfoot td {
 }
 
 thead th.required {
-    color: var(--body-loud-color);
+    color: white;
 }
 
 tr.alt {
@@ -320,7 +320,7 @@ tr:nth-child(even),
 tr:nth-child(even) .errorlist,
 tr:nth-child(odd) + .row-form-errors,
 tr:nth-child(odd) + .row-form-errors .errorlist {
-    background: var(--darkened-bg);
+    background: var(--accent);
 }
 
 /* SORTABLE TABLES */
@@ -403,7 +403,7 @@ table thead th.sorted .sortoptions a.sortremove:after {
     left: 3px;
     font-weight: 200;
     font-size: 1.125rem;
-    color: var(--body-quiet-color);
+    color: white;
 }
 
 table thead th.sorted .sortoptions a.sortremove:focus:after,
@@ -459,7 +459,7 @@ input[type=number], input[type=tel], textarea, select, .vTextField {
     border-radius: 4px;
     padding: 5px 6px;
     margin-top: 0;
-    color: var(--body-fg);
+    color: white;
     background-color: var(--body-bg);
 }
 
@@ -555,7 +555,7 @@ input[type=button][disabled].default {
     font-weight: 400;
     font-size: 0.8125rem;
     text-align: left;
-    background: var(--primary);
+    background: var(--secondary);
     color: var(--header-link-color);
 }
 
@@ -971,7 +971,7 @@ a.deletelink:focus, a.deletelink:hover {
 /* SIDEBAR */
 
 #content-related {
-    background: var(--darkened-bg);
+    background-color: var(--secondary);
 }
 
 #content-related .module {
@@ -1014,7 +1014,7 @@ a.deletelink:focus, a.deletelink:hover {
 }
 
 .delete-confirmation form input[type="submit"] {
-    background: var(--delete-button-bg);
+    background-color: var(--secondary);
     border-radius: 4px;
     padding: 10px 15px;
     color: var(--button-fg);
@@ -1023,7 +1023,7 @@ a.deletelink:focus, a.deletelink:hover {
 .delete-confirmation form input[type="submit"]:active,
 .delete-confirmation form input[type="submit"]:focus,
 .delete-confirmation form input[type="submit"]:hover {
-    background: var(--delete-button-hover-bg);
+    background-color: var(--secondary);
 }
 
 .delete-confirmation form .cancel-link {
@@ -1041,7 +1041,7 @@ a.deletelink:focus, a.deletelink:hover {
 .delete-confirmation form .cancel-link:active,
 .delete-confirmation form .cancel-link:focus,
 .delete-confirmation form .cancel-link:hover {
-    background: var(--close-button-hover-bg);
+    background: var(--secondary);
 }
 
 /* POPUP */
@@ -1087,7 +1087,7 @@ a.deletelink:focus, a.deletelink:hover {
 
 .paginator a.showall:focus, .paginator a.showall:hover {
     background: none;
-    color: var(--link-hover-color);
+    color: var(--secondary);
 }
 
 .paginator .end {
