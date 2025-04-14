@@ -10,6 +10,64 @@ from products.models import ProductImage
 def isStaffCheck(user: User):
     return user.is_staff
 
+def isAdminCheck(user: User):
+    return user.is_staff and user.is_superuser
+
+@user_passes_test(isAdminCheck)
+def admin_profile(request):
+    admin_user = request.user
+
+    if request.method == 'POST' and 'cancel_order_id' in request.POST:
+        order_id = int(request.POST['cancel_order_id'])
+        order_to_cancel = Order.objects.get(id=order_id)
+        order_to_cancel.claim = None
+        order_to_cancel.save()
+
+    recent_users = User.objects.order_by('-date_joined')[:3]
+    active_employees = User.objects.filter(is_staff=True).order_by('-last_login')[:2]
+    recent_orders_objects = Order.objects.order_by('-date')[:5]
+
+    last_status_key = ORDER_STATUS_CHOICES[-1][0]
+    claimed_orders_objects = Order.objects.filter(claim=admin_user).exclude(status=last_status_key)
+
+    recent_orders = []
+    for order in recent_orders_objects:
+        order_info = {}
+        order_info['number'] = f"#{order.id:06d}"
+        order_info['id'] = order.id
+        order_info['date'] = order.date.strftime('%d/%m/%Y - %H:%M%p')
+        order_items = OrderItem.objects.filter(order=order)
+        formatted_items = [item.product.name for item in order_items[:2]]
+        if len(order_items) > 2:
+            formatted_items.append("...")
+        formatted_items = ", ".join(formatted_items)
+        order_info['items'] = formatted_items
+        recent_orders.append(order_info)
+
+    claimed_orders = []
+    for order in claimed_orders_objects:
+        order_info = {}
+        order_info['number'] = f"#{order.id:06d}"
+        order_info['id'] = order.id
+        order_info['date'] = order.date.strftime('%d/%m/%Y - %H:%M%p')
+        order_items = OrderItem.objects.filter(order=order)
+        formatted_items = [item.product.name for item in order_items[:2]]
+        if len(order_items) > 2:
+            formatted_items.append("...")
+        formatted_items = ", ".join(formatted_items)
+        order_info['items'] = formatted_items
+        claimed_orders.append(order_info)
+
+    context = {
+        'user': admin_user,
+        'recent_users': recent_users,
+        'active_employees': active_employees,
+        'recent_orders': recent_orders,
+        'claimed_orders': claimed_orders,
+    }
+
+    return render(request, 'admin-profile.html', context)
+
 @user_passes_test(isStaffCheck)
 def staff_dashboard(request):
     
