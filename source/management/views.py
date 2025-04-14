@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from orders.models import Order, OrderItem, ORDER_STATUS_CHOICES
 from .forms import ClaimOrderForm
 from django.contrib import messages
+from products.models import ProductImage
 # Create your views here.
 
 def isStaffCheck(user: User):
@@ -84,7 +85,7 @@ def order_detail(request, order_id):
         item_info = {}
         
         item_info['product_name'] = item.product.name
-        item_info['image'] = item.product.imageURL
+        item_info['image'] = ProductImage.objects.get(product=item.product).imageURL
         item_info['designname'] = item.design.name
         item_info['designurl'] = item.design.image
         item_info['colorname'] = item.color.name

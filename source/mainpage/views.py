@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from products.models import Product
+from products.models import Product, ProductImage
 
 # Create your views here.
 def about_us(request):
@@ -8,4 +8,8 @@ def about_us(request):
         featured_product_price = featured_product.price_in_dollars()
     else:
         featured_product_price = None
-    return render(request, "main-page.html", {"featured_product": featured_product, "featured_product_price": featured_product_price})
+    return render(request, "main-page.html", {
+        "featured_product": featured_product, 
+        "featured_product_price": featured_product_price,
+        "featured_product_image": ProductImage.objects.get(product=featured_product).imageURL
+        })

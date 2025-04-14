@@ -21,7 +21,7 @@
         <div class="row">
             <!-- Product Image -->
             <div class="col-md-6 ps-5 product-image">
-                <img src="{{ product.imageURL }}" class="img-fluid rounded expanded-img" alt="{{ product.name }}" style="border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;">
+                <img src="{{ productImage.imageURL }}" class="img-fluid rounded expanded-img" alt="{{ product.name }}" style="border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;">
                 <img id='design-image' class="img-fluid rounded" alt="design image preview">
             </div>
             <!-- Product Customization Options -->
@@ -143,7 +143,7 @@
                 quantity: parseInt(quantity),
                 color: selectedColor,
                 size: selectedSize,
-                image: "{{ product.imageURL }}",
+                image: "{{ productImage.imageURL }}",
                 design: selectedDesign,
                 colorname: colorName,
                 sizename: sizeName,

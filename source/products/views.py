@@ -32,7 +32,18 @@ def catalog(request):
     if max_price:
         products = products.filter(price__lte=int(max_price) * 100)
 
-    context = {'products': products}
+    context = {
+        'products': [
+            {
+                "get_absolute_url": product.get_absolute_url(),
+                "imageURL": ProductImage.objects.get(product=product).imageURL,
+                "name": product.name,
+                "price_in_dollars": product.price_in_dollars()
+            } for product in products
+        ]
+    }
+    
+    print(context)
     return render(request, 'catalog.html', context)
 
 def product(request, pk):
