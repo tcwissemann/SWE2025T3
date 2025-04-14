@@ -64,7 +64,8 @@ def product(request, pk):
             'imageURL': productImage.imageURL,
             'top': productImage.start_y,
             'left': productImage.start_x,
-            'width': productImage.end_x - productImage.start_x
+            'width': productImage.end_x - productImage.start_x,
+            'height': productImage.end_y - productImage.start_y
         }
     })
 
