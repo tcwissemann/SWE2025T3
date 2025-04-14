@@ -13,3 +13,7 @@
 .order-table tbody tr:nth-child(odd) {
   background-color: var(--accent-clr);
 }
+
+.order-table tbody tr:nth-child(even) {
+  background-color: var(--accent-highlight-clr);
+}
