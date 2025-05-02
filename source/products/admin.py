@@ -34,17 +34,26 @@ class SizeInlineFormSet(BaseInlineFormSet):
 
     def get_form_kwargs(self, index):
         kwargs = super().get_form_kwargs(index)
-        if index is not None and 0 <= index < len(self.size_defaults):
+        if (
+            getattr(self, 'is_adding', False) and
+            index is not None and
+            0 <= index < len(self.size_defaults)
+        ):
             kwargs['initial'] = self.size_defaults[index]
         return kwargs
     
 class SizeInline(admin.TabularInline):
     model = Size
     formset = SizeInlineFormSet
-    extra = 5
+    extra = 6
     min_num = 1
     max_num = 6
     validate_min = True
+
+    def get_formset(self, request, obj=None, **kwargs):
+        formset = super().get_formset(request, obj, **kwargs)
+        formset.is_adding = obj is None
+        return formset
     
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline, SizeInline]
