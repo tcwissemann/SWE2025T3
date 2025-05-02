@@ -10,6 +10,7 @@ def create_sku():
 class Product(models.Model):
     sku = models.CharField(max_length=4, primary_key=True, default=create_sku)
     name = models.CharField(max_length=50)
+    is_available = models.BooleanField(default=True)
     price = models.IntegerField()
     description = models.TextField()
 
