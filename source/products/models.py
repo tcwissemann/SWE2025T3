@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator
 
 # Create your models here.
 
@@ -8,10 +9,10 @@ def create_sku():
     return str(max(int(product.sku) for product in Product.objects.all())+1).zfill(4)
 
 class Product(models.Model):
-    sku = models.CharField(max_length=4, primary_key=True, default=create_sku)
+    sku = models.CharField(max_length=4, primary_key=True, default=create_sku, blank=False)
     name = models.CharField(max_length=50)
     is_available = models.BooleanField(default=True)
-    price = models.IntegerField()
+    price = models.IntegerField(validators=[MinValueValidator(1)])
     description = models.TextField()
 
     def price_in_dollars(self):
