@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %} Admin Message Board {% endblock %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href='{% static "styles/website-theme.css" %}' type="text/css">
+    <div class="card p-4">
+        <h3>Customer Messages</h3>
+        {% if messages %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for message in messages %}
+                        <tr>
+                            <td>{{ message.user.username }}</td>
+                            <td>{{ message.title }}</td>
+                            <td>{{ message.created_at|date:"F j, Y, g:i a" }}</td>
+                            <td><a href="{% url 'admin_message_detail' message.id %}" class="btn btn-sm btn-info">View</a></td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="4">No messages yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No messages yet.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
