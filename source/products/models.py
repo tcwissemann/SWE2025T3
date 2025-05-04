@@ -14,6 +14,7 @@ class Product(models.Model):
     is_available = models.BooleanField(default=True)
     price = models.IntegerField(validators=[MinValueValidator(1)])
     description = models.TextField()
+    stock = models.IntegerField(default=0)
 
     def price_in_dollars(self):
         return round(self.price / 100.0, 2)

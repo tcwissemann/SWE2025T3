@@ -46,6 +46,17 @@
                     </label>
                     {% endfor %}
                 </div>
+                <!-- Stock Availability -->
+                {% if product.stock > 0 %}
+                    <div class="alert alert-success" role="alert">
+                        Stock available: {{ product.stock }}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-danger" role="alert">
+                        Sorry! This product is out of stock :(
+                    </div>
+                {% endif %}
+
                 <!-- Design Options -->
                 {% if designs != None and designs|length > 0%}
                 <input type="hidden" id="design-selection" name="design" value="">
@@ -85,7 +96,7 @@
                     </div>
                 </div>
                 <!-- Add to Order Button -->
-                <button class="btn custom-button" id="addToCart">Add to Order</button>
+                <button class="btn custom-button" id="addToCart" {% if product.stock <= 0 %}disabled{% endif %}>Add to Order</button>
                 <!-- Success Message -->
                 <div class="alert alert-success mt-3" id="successMessage" style="display: none;">
                     Item added to cart successfully!
