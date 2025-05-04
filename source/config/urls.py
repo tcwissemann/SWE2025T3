@@ -31,4 +31,5 @@ urlpatterns = [
     path('cart/', cart),
     path('dashboard', include('management.adminUrls')),
     path('staff/', include('management.urls')),
+    path('', include('contact.urls'))
 ]
