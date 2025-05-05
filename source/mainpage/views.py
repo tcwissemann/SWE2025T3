@@ -15,5 +15,5 @@ def about_us(request):
     return render(request, "main-page.html", {
         "featured_product": featured_product,
         "featured_product_price": featured_product_price,
-        "featured_product_image": featured_product_image
+        "featured_product_image": featured_product_image,
     })

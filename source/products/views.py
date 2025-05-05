@@ -159,12 +159,10 @@ def mergeImages(background: Image.Image, overlay: Image.Image, mask: Image.Image
 def create_previews(design: Design):
     designImage = Image.open(design.image).convert('RGBA')
     for product in ProductImage.objects.all():
-    # added to only load first product
         textureMask = Image.open(product.texture_mask).convert('RGBA')
         
-        
         for color in Color.objects.all():
-            productPreview = ProductColor.objects.filter(productImage=product, color=color).first()
+            productPreview = ProductColor.objects.filter(productImage=product, color=color).last()
             productPreviewImage = Image.open(productPreview.image).convert('RGBA')
             print(f"making {design.name} for {product.product.name} in color {color.name}")
 
@@ -229,7 +227,7 @@ def request_image(request):
 # # returns json with previews
 def getPreviews(user: django.contrib.auth.models.User, product: Product)->str:
     previews = {}
-    productImage = ProductImage.objects.filter(product=product).first()
+    productImage = ProductImage.objects.filter(product=product).last()
     print(user)
     for design in Design.objects.filter(user=user):
         design_previews = {}
