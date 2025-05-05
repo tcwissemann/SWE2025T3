@@ -7,7 +7,7 @@ def about_us(request):
 
     if featured_product:
         featured_product_price = featured_product.price_in_dollars()
-        featured_product_image = ProductImage.objects.get(product=featured_product).imageURL
+        featured_product_image = ProductImage.objects.get(product=featured_product).image.url
     else:
         featured_product_price = None
         featured_product_image = None
