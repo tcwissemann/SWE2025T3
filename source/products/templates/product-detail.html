@@ -6,16 +6,8 @@
 <link rel="stylesheet" href='{% static "styles/catalog.css" %}' type="text/css">
 <link rel="stylesheet" href='{% static "styles/product-detail.css" %}' type="text/css">
 
-<style>
-    #design-image{
-        top: {{ productImage.top }}%;
-        left: {{ productImage.left }}%;
-        width: {{ productImage.width }}%;
-        height: {{ productImage.height }}%;
-    }
-</style>
-
 <!-- Product Detail Section -->
+
 <section class="container my-3 py-3">
     <div class="container py-5 px-3 product-detail rounded">
         <a href="/shop" class="btn custom-button back ps-2 pe-2 pt-1 pb-1" style="margin-left: 36px; border-top-left-radius: 5px; border-top-right-radius: 5px;">BACK</a>
@@ -23,7 +15,6 @@
             <!-- Product Image -->
             <div id="detail-product-image" class="col-md-6 ps-5 product-image">
                 <img src="{{ productImage.imageURL }}" class="img-fluid rounded expanded-img" alt="{{ product.name }}" style="border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;">
-                <img id='design-image' class="img-fluid rounded">
             </div>
             <!-- Product Customization Options -->
             <div class="col-md-6 pe-5 product-customization">
@@ -84,8 +75,11 @@
                         <input type="number" id="quantity" class="form-control py-2" value="1" min="1" max="99" onblur="validateQuantity()">
                     </div>
                 </div>
+                
                 <!-- Add to Order Button -->
+                
                 <button class="btn custom-button" id="addToCart">Add to Order</button>
+                
                 <!-- Success Message -->
                 <div class="alert alert-success mt-3" id="successMessage" style="display: none;">
                     Item added to cart successfully!
@@ -93,8 +87,15 @@
             </div>
         </div>
     </div>
+    <form>
+    {% csrf_token %}
+    </form>
 </section>
 <script>
+
+    let baseImage = '{{ productImage.imageURL }}'
+    let previews = JSON.parse('{{ previews|safe }}')
+
     function validateQuantity() {
         const quantityInput = document.querySelector('#quantity');
         const quantityValue = Number(quantityInput.value);
@@ -192,18 +193,17 @@
         }
 
     });
-    
+
     // Select design card functionality
     document.addEventListener('DOMContentLoaded', function() {
         const designSelection = document.querySelector("#design-selection")
         const cards = document.querySelectorAll(".design-card")
-        const designImage = document.querySelector("#design-image")
 
         if (cards.length > 0) {
             // Select the first design by default
             cards[0].classList.add('clicked-card');
             designSelection.value = cards[0].getAttribute("value");
-            designImage.src = document.querySelector('.clicked-card img').src;
+            updateImage()
         }    
 
         cards.forEach(card => {
@@ -216,8 +216,21 @@
 
                 // Update the hidden input value
                 designSelection.value = this.valueOf().getAttribute("value");
-                designImage.src = document.querySelector('.clicked-card img').src;
+                updateImage()
             });
+        });
+    });
+
+    // Select design card functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const colorSelectors = document.querySelectorAll('input[name=color]') 
+        
+        updateImage()
+
+        colorSelectors.forEach(selector=>{
+            selector.addEventListener('click', ()=>{
+                updateImage()
+            })
         });
     });
 
@@ -241,6 +254,47 @@
             if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
         }
         return null;
+    }
+
+    function updateImage(){
+        const previewImage = document.querySelector('#detail-product-image img')
+        const selectedColor = document.querySelector('input[name="color"]:checked').value;
+        const selectedDesign = document.querySelector('input[name="design"]').value;
+
+        const preview = previews[selectedDesign][selectedColor]
+
+        if(preview == 'null'){
+            previewImage.src = baseImage
+        } else {
+            previewImage.src = preview
+        }
+    }
+
+    function requestImages(){
+        const BASE_URL = '{{ request.scheme }}://{{ request.get_host }}/';
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        let requestData = {
+            design: document.querySelector('input[name="color"]:checked').value,
+            color: document.querySelector('input[name="color"]:checked').value
+        };
+        console.log(requestData);
+        const API_URL = BASE_URL + "api/";
+        console.log(API_URL)
+        const request = new Request(
+            API_URL,
+            { headers: { 'X-CSRFToken': csrftoken } }
+        );
+
+        fetch(request, {
+            method: 'POST',
+            mode: 'same-origin',
+            body: JSON.stringify(requestData) 
+        })
+        .then(response => response.json())
+        .then(response =>
+            {
+                console.log(response['text']);
+            });
     }
 </script>
 {% endblock %}

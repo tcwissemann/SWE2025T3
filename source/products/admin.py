@@ -8,4 +8,6 @@ admin.site.register([
     Color,
     Size,
     ProductImage,
+    ProductPreview,
+    ProductColor,
 ])

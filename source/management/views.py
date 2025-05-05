@@ -172,7 +172,7 @@ def order_detail(request, order_id):
         item_info = {}
         
         item_info['product_name'] = item.product.name
-        item_info['image'] = ProductImage.objects.get(product=item.product).imageURL
+        item_info['image'] = ProductImage.objects.get(product=item.product).image.url
         item_info['designname'] = item.design.name
         item_info['designurl'] = item.design.image
         item_info['colorname'] = item.color.name
