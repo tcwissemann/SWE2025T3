@@ -18,7 +18,6 @@ from django.contrib import admin
 from django.urls import path, include
 from products.views import designs
 from orders.views import cart
-from products.views import request_image
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,6 +31,5 @@ urlpatterns = [
     path('cart/', cart),
     path('dashboard', include('management.adminUrls')),
     path('staff/', include('management.urls')),
-    path('api/', request_image),
     path('', include('contact.urls'))
 ]
