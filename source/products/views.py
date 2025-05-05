@@ -218,13 +218,7 @@ def test_request(request):
     response = HttpResponse(json.dumps(obj), 'application/json', charset='utf-8')
     return response
 
-def request_image(request):
-    product = Product.objects.get(id=data['product'])
-    
-    response = HttpResponse(getPreviews(request.user, product), 'application/json', charset='utf-8')
-    return response
-
-# # returns json with previews
+# returns json with previews
 def getPreviews(user: django.contrib.auth.models.User, product: Product)->str:
     previews = {}
     productImage = ProductImage.objects.filter(product=product).last()
