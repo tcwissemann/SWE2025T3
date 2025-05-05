@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, ProductImage, Size, Design, Color
+from .models import Product, ProductImage, Size, Design, Color, ProductPreview, ProductColor
 from django.forms.models import BaseInlineFormSet
     
 class ProductImageInlineFormSet(BaseInlineFormSet):
@@ -79,5 +79,11 @@ class ProductAdmin(admin.ModelAdmin):
                 )
 
 admin.site.register(Product, ProductAdmin)
-admin.site.register(Design)
-admin.site.register(Color)
+admin.site.register([
+    Design,
+    Color,
+    ProductColor,
+    ProductPreview,
+    ProductImage,
+    Size
+])
