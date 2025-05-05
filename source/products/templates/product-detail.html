@@ -1,5 +1,4 @@
-{% extends "base.html" %} {% block title %} Product Detail {% endblock %} {%
-load static %} {% block content %}
+{% extends "base.html" %} {% block title %} Product Detail {% endblock %} {% load static %} {% block content %}
 <link
   rel="stylesheet"
   href='{% static "styles/website-theme.css" %}'
@@ -294,7 +293,8 @@ load static %} {% block content %}
               colorname: colorName,
               sizename: sizeName,
               designname: designName,
-              designurl: designImgUrl
+              designurl: designImgUrl,
+              maxproductstock: {{ product.stock }}
           };
 
           const existingItemIndex = cart.findIndex(item =>

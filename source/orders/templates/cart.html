@@ -89,6 +89,9 @@
         orderRow.className = 'py-3 mb-3 mx-1 order-row rounded d-flex align-items-center';
         orderRow.dataset.itemIndex = index;
         
+        // Check if at max stock
+        const isAtMaxStock = item.quantity >= item.maxproductstock;
+        
         orderRow.innerHTML = `
           <div class="product-image ms-3">
             <img src="${item.image || ''}" alt="${item.name}" class="img-fluid rounded order-img">
@@ -113,9 +116,11 @@
               <button class="quantity-change btn btn-sm"
                 onclick="updateItemQuantity(${index}, false)">-</button>
               <span class="quantity">${item.quantity}</span>
-              <button class="quantity-change btn btn-sm"
+              <button class="quantity-change btn btn-sm" 
+                ${isAtMaxStock ? 'disabled' : ''}
                 onclick="updateItemQuantity(${index}, true)">+</button>
             </div>
+            ${isAtMaxStock ? '<small class="text-danger">Max stock reached</small>' : ''}
           </div>
         `;
         
@@ -131,7 +136,13 @@
       if (!cart || !cart[itemIndex]) return;
       
       if (increment) {
-        cart[itemIndex].quantity += 1;
+        // Check if already at max stock
+        if (cart[itemIndex].quantity < cart[itemIndex].maxproductstock) {
+          cart[itemIndex].quantity += 1;
+        } else {
+          // Don't increment if at max stock
+          return;
+        }
       } else {
         cart[itemIndex].quantity -= 1;
         
