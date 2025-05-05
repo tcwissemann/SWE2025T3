@@ -1,22 +1,48 @@
-{% extends "base.html" %}
-{% block title %} Message Board {% endblock %}
+{% extends 'base.html' %}
 {% load static %}
+{% block title %}Customer Messages{% endblock %}
 
 {% block content %}
 <link rel="stylesheet" href='{% static "styles/website-theme.css" %}' type="text/css">
 <link rel="stylesheet" href='{% static "styles/catalog.css" %}' type="text/css">
-<link rel="stylesheet" href='{% static "styles/profile.css" %}' type="text/css">
+<link rel="stylesheet" href='{% static "styles/contact.css" %}' type="text/css">
 
-<section class="container my-3 py-3">
-    <div class="card p-4">
-        <div class="text-center">
-            <img src="{% static 'images/fish-pillow.jpg' %}" class="profile-img rounded-circle" width="100" height="100"
-                alt="Profile Picture">
-            <h2 class="mt-2">{{ user.username }}</h2>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card p-4 shadow">
+                <h2 class="mb-4 text-center">Customer Messages</h2>
+                <table class="table customer-messages-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Title</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <tr>
+                                    <td>{{ message.user.username }}</td>
+                                    <td>{{ message.subject }}</td>
+                                    <td>{{ message.created_at }}</td>
+                                    <td>
+                                        <a href="{% url 'admin_message_detail' message.id %}" class="btn btn-info btn-sm">View</a>
+                                        <a href="{% url 'admin_message_delete' message.id %}" class="btn btn-danger btn-sm ml-2">Delete</a>
+                                    </td>
+                                </tr>
+                            {% empty %}
+                                <tr><td colspan="4" class="text-center no-messages">No messages yet.</td></tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr><td colspan="4" class="text-center no-messages">No messages yet.</td></tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-            <tbody>
-            </tbody>
-        </table>
     </div>
-</section>
+</div>
 {% endblock %}
