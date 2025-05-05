@@ -9,22 +9,7 @@
 <section class="container my-3 py-3">
     <div class="row">
         <!-- Sidebar -->
-        <form method="get" class="col-md-3 mb-3 rounded sidebar">
-            <div class="mb-3">
-                <label for="category">Category</label>
-                <select id="category" name="category" class="form-select">
-                    <option value="all">All</option>
-                    {% comment %} <option value="shirts">Shirts</option>
-                    <option value="stickers">Stickers</option>
-                    <option value="mugs">Mugs</option>
-                    <option value="cards">Cards</option>
-                    <option value="phone-cases">Phone Cases</option>
-                    <option value="pillows">Pillows</option>
-                    <option value="journals">Journals</option>
-                    <option value="backpacks">Backpacks</option>
-                    <option value="posters">Posters</option> {% endcomment %}
-                </select>
-            </div>
+        <form id="filterForm" method="get" class="col-md-3 mb-3 rounded sidebar">
             <div class="mb-3">
                 <label for="priceRange">Price Range</label>
                 <div class="d-flex">
@@ -32,7 +17,10 @@
                     <input type="number" name="max_price" id="max_price" class="form-control" placeholder="Max" min="0" max="3000" oninput="updateMin()">
                 </div>
             </div>
-            <button type="submit" class="btn custom-button dark w-100">Search</button>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn custom-button dark flex-grow-1">Apply Filters</button>
+                <button type="button" id="resetButton" class="btn btn-secondary">Reset</button>
+            </div>
         </form>
 
         <!-- Product Grid -->
@@ -57,77 +45,65 @@
 </section>
 
 <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const category = urlParams.get('category');
-    const minPrice = urlParams.get('min_price');
-    const maxPrice = urlParams.get('max_price');
-    const categorySelect = document.querySelector('#category');
-    const minPriceSelect = document.querySelector('#min_price');
-    const maxPriceSelect = document.querySelector('#max_price');
-    const searchButton = document.querySelector('.btn.custom-button.dark');
-
-    if (category) {
-        categorySelect.value = all;
-    }
-    if (minPrice) {
-        minPriceSelect.value = minPrice;
-    }
-    if (maxPrice) {
-        maxPriceSelect.value = maxPrice;
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const minPrice = urlParams.get('min_price');
+        const maxPrice = urlParams.get('max_price');
+        
+        // Get form elements
+        const minPriceInput = document.getElementById('min_price');
+        const maxPriceInput = document.getElementById('max_price');
+        const resetButton = document.getElementById('resetButton');
+        
+        // Set initial values from URL if present
+        if (minPrice) {
+            minPriceInput.value = minPrice;
+        }
+        if (maxPrice) {
+            maxPriceInput.value = maxPrice;
+        }
+        
+        // Initialize min/max constraints
+        if (minPrice && maxPrice) {
+            updateMax();
+            updateMin();
+        }
+        
+        // Reset button functionality
+        resetButton.addEventListener('click', function() {
+            minPriceInput.value = '';
+            maxPriceInput.value = '';
+            window.location.href = window.location.pathname;
+        });
+    });
 
     function updateMax() {
         const minPrice = document.getElementById('min_price').value;
         const maxPriceInput = document.getElementById('max_price');
     
-        if (minPrice) {
-            maxPriceInput.min = Number(minPrice) + 1;
-            if (maxPriceInput.value && Number(maxPriceInput.value) <= Number(minPrice)) {
-                maxPriceInput.value = Number(minPrice) + 1;
+        if (minPrice && minPrice !== '') {
+            maxPriceInput.min = Number(minPrice);
+            if (maxPriceInput.value !== '' && Number(maxPriceInput.value) < Number(minPrice)) {
+                maxPriceInput.value = Number(minPrice);
             }
         } else {
             maxPriceInput.min = 0;
         }
-        //check if the max value is less than the min, and correct it.
-        if (maxPriceInput.value && Number(maxPriceInput.value) < Number(maxPriceInput.min)) {
-            maxPriceInput.value = maxPriceInput.min;
-        }
-        
     }
 
     function updateMin() {
         const maxPrice = document.getElementById('max_price').value;
         const minPriceInput = document.getElementById('min_price');
 
-        if (maxPrice) {
-            minPriceInput.max = Number(maxPrice) - 1;
-            if (minPriceInput.value >= Number(maxPrice)) {
-                minPriceInput.value = Number(maxPrice) - 1;
+        if (maxPrice && maxPrice !== '') {
+            minPriceInput.max = Number(maxPrice);
+            if (minPriceInput.value !== '' && Number(minPriceInput.value) > Number(maxPrice)) {
+                minPriceInput.value = Number(maxPrice);
             }
         } else {
-            minPriceInput.max = Infinity;
-        }
-        //check if the min value is greater than the max, and correct it.
-        if (Number(minPriceInput.value) > Number(minPriceInput.max)){
-            minPriceInput.value = minPriceInput.max;
+            minPriceInput.max = 3000; // Reset to the default max
         }
     }
-    searchButton.addEventListener('click', (event) => {
-        event.preventDefault();
-
-        // Update min and max attributes before fetching
-        updateMax();
-        updateMin();
-
-        const minPriceValue = minPriceSelect.value;
-        const maxPriceValue = maxPriceSelect.value;
-
-        if (minPriceValue) {
-            url += `&min_price=${minPriceValue}`;
-        }
-        if (maxPriceValue) {
-            url += `&max_price=${maxPriceValue}`;
-        }
-    });
 </script>
 {% endblock %}

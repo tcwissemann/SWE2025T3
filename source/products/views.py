@@ -56,8 +56,9 @@ def product(request, pk):
     colors = Color.objects.all()
     productImage = ProductImage.objects.get(product=product)
     
-    userDesignsContext = getUserDesignsContext(request)
-    designs = userDesignsContext[1] if userDesignsContext != None else None
+    # Get user designs if authenticated, otherwise set designs to None
+    userDesignsContext = getUserDesignsContext(request) if request.user.is_authenticated else None
+    designs = userDesignsContext[1] if userDesignsContext is not None else None
     
     return render(request, "product-detail.html", {
         'product': product,
@@ -220,24 +221,28 @@ def test_request(request):
 
 # returns json with previews
 def getPreviews(user: django.contrib.auth.models.User, product: Product)->str:
+    """
+    Get preview designs for a product based on the user.
+    Returns empty JSON object for anonymous users.
+    """
     previews = {}
     productImage = ProductImage.objects.filter(product=product).last()
-    print(user)
-    for design in Design.objects.filter(user=user):
-        design_previews = {}
-        for color in Color.objects.all():
-            try:
-                preview = ProductPreview.objects.filter(color=color, design=design, product=productImage).last()
-                if preview.image.url:
-                    # design_previews[color.id] = preview.image.url
-                    design_previews.update({color.id: preview.image.url})
-                else:
-                    # design_previews[color.id] = 'null'
+    
+    # Check if user is authenticated before trying to filter by user
+    if user.is_authenticated:
+        for design in Design.objects.filter(user=user):
+            design_previews = {}
+            for color in Color.objects.all():
+                try:
+                    preview = ProductPreview.objects.filter(color=color, design=design, product=productImage).last()
+                    if preview and preview.image.url:
+                        design_previews.update({color.id: preview.image.url})
+                    else:
+                        design_previews.update({color.id: 'null'})
+                except ProductPreview.DoesNotExist:
                     design_previews.update({color.id: 'null'})
-            except ProductPreview.DoesNotExist:
-                design_previews.update({color.id: 'null'})
-        # previews[design.id] = design_previews
-        previews.update({design.id: design_previews})
-    print(previews)
+            previews.update({design.id: design_previews})
+    
+    # Return empty JSON object for anonymous users
     return json.dumps(previews)
     
