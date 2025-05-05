@@ -104,3 +104,59 @@ textarea.form-control {
 .contact-info a:hover {
   color: var(--secondary-font-clr);
 }
+.customer-messages-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  color: var(--secondary-font-clr);
+}
+
+.customer-messages-table th,
+.customer-messages-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--accent-darker-clr);
+}
+
+.customer-messages-table thead th {
+  background-color: var(--accent-highlight-clr);
+  font-weight: bold;
+}
+
+.customer-messages-table tbody tr:nth-child(odd) {
+  background-color: var(--accent-clr);
+}
+
+.customer-messages-table tbody tr:nth-child(even) {
+  background-color: var(--accent-highlight-clr);
+}
+
+.customer-messages-table .no-messages {
+  padding: 20px;
+  text-align: center;
+  font-style: italic;
+  color: #aaa;
+}
+.customer-messages-table .actions a {
+  display: inline-block;
+  margin-right: 5px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 0.8rem;
+}
+
+.customer-messages-table .actions .btn-info {
+  background-color: #17a2b8; 
+  color: white;
+  padding: 5px 8px;
+}
+
+.customer-messages-table .actions .btn-danger {
+  background-color: #dc3545;
+  color: white;
+  padding: 5px 8px;
+}
+
+.customer-messages-table .actions .ml-2 {
+  margin-left: 0.5rem;
+}
