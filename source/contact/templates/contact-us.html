@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Contact Us{% endblock %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href='{% static "styles/website-theme.css" %}' type="text/css">
+<link rel="stylesheet" href='{% static "styles/catalog.css" %}' type="text/css">
+<link rel="stylesheet" href="{% static 'styles/contact.css' %}" type="text/css">
+
+<section class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card p-4 shadow">
+                <h2 class="mb-4 text-center">Get in Touch</h2>
+                <p class="lead text-center mb-4">We'd love to hear from you! Please fill out the form below or use the contact information provided.</p>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Your Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ request.user.first_name }} {{ request.user.last_name }}" {% if request.user.is_authenticated %}readonly{% endif %} required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Your Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ request.user.email }}" {% if request.user.is_authenticated %}readonly{% endif %} required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="subject" class="form-label">Subject</label>
+                        <input type="text" class="form-control" id="subject" name="subject">
+                    </div>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+
+                <hr class="my-4">
+
+                <div class="mt-4">
+                    <h2>Other Ways to Connect</h2>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-envelope me-2"></i> Email: <a href="mailto:PurpleBubble@management.com"> PurpleBubble@management.com</a></li>
+                        <li><i class="bi bi-telephone me-2"></i> Phone: (512)448-8400</li>
+                        <li><i class="bi bi-geo-alt me-2"></i> Address: 3001 S Congress Ave, Austin, TX 78704</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

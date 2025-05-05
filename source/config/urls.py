@@ -33,4 +33,5 @@ urlpatterns = [
     path('dashboard', include('management.adminUrls')),
     path('staff/', include('management.urls')),
     path('api/', request_image)
+    path('', include('contact.urls'))
 ]

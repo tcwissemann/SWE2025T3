@@ -5,6 +5,10 @@ from orders.models import Order, OrderItem, ORDER_STATUS_CHOICES
 from .forms import ClaimOrderForm
 from django.contrib import messages
 from products.models import ProductImage
+from django.db.models import Count, Q, F
+from django.http import JsonResponse
+from django.utils import timezone
+from datetime import timedelta
 # Create your views here.
 
 def isStaffCheck(user: User):
@@ -119,9 +123,9 @@ def staff_profile(request):
     orders = []
     for order in claimed_orders:
         order_info = {
-            'number': f"#{order.id:06d}",  # Format order number with leading zeros
+            'number': f"#{order.id:06d}",
             'id': order.id,
-            'date': order.date.strftime('%d/%m/%Y - %H:%M%p'),  # Format the date
+            'date': order.date.strftime('%d/%m/%Y - %H:%M%p'),  
             'items': ", ".join(
                 [item.product.name for item in OrderItem.objects.filter(order=order)[:2]] +
                 (["..."] if OrderItem.objects.filter(order=order).count() > 2 else [])
@@ -129,36 +133,9 @@ def staff_profile(request):
         }
         orders.append(order_info)
 
-    # Fetch the 5 most recently placed orders
-    recent_orders = Order.objects.all().order_by('-date')[:5]
-    recent_orders_info = []
-
-    for order in recent_orders:
-        order_info = {
-            'number': f"#{order.id:06d}",  # Format order number with leading zeros
-            'id': order.id,
-            'date': order.date.strftime('%d/%m/%Y - %H:%M%p'),  # Format the date
-            'items': ", ".join(
-                [item.product.name for item in OrderItem.objects.filter(order=order)[:2]] +
-                (["..."] if OrderItem.objects.filter(order=order).count() > 2 else [])
-            )
-        }
-        recent_orders_info.append(order_info)
-
-    # Fetch the 3 most recent users if the logged-in user is a superuser
-    recent_users = []
-    if request.user.is_superuser:
-        recent_users = User.objects.order_by('-date_joined')[:3]
-
-    # Fetch the 2 most recently active employees (sorted by last login)
-    active_employees = User.objects.filter(is_staff=True).order_by('-last_login')[:2]
-
     return render(request, 'staff-profile.html', {
         'user': staff_user,
         'orders': orders,
-        'recent_users': recent_users,
-        'active_employees': active_employees,
-        'recent_orders': recent_orders_info,
     })
 
 @user_passes_test(isStaffCheck)
@@ -212,3 +189,94 @@ def update_order_status(request, order_id):
             messages.error(request, "Invalid status.")
     
     return redirect('order_detail', order_id=order.id)
+
+@user_passes_test(isStaffCheck)
+def staff_analytics(request):
+    recent_orders = Order.objects.all().order_by('-date')[:5]
+    recent_orders_info = []
+
+    for order in recent_orders:
+        order_info = {
+            'number': f"#{order.id:06d}",
+            'id': order.id,
+            'date': order.date.strftime('%d/%m/%Y - %H:%M%p'),  
+            'items': ", ".join(
+                [item.product.name for item in OrderItem.objects.filter(order=order)[:2]] +
+                (["..."] if OrderItem.objects.filter(order=order).count() > 2 else [])
+            )
+        }
+        recent_orders_info.append(order_info)
+
+    recent_users = []
+    if request.user.is_superuser:
+        recent_users = User.objects.order_by('-date_joined')[:3]
+
+    active_employees = User.objects.filter(is_staff=True).order_by('-last_login')[:2]
+    
+    return render(request, 'staff-analytics.html', {
+        "recent_users": recent_users,
+        "active_employees": active_employees,
+        "recent_orders": recent_orders_info,
+    })
+
+@user_passes_test(isStaffCheck)
+def staff_data_json(request):
+    try:
+        range_val = request.GET.get('range', 'all')
+        now = timezone.now()
+        use_date_filter = False
+
+        if range_val != 'all':
+            try:
+                days = float(range_val)
+                since = now - timedelta(days=days)
+                use_date_filter = True
+            except ValueError:
+                pass
+
+        if use_date_filter:
+            user_filter = Q(customer__date__gte=since)
+            employee_filter = Q(order__claim=F('id'), order__status='CM', order__date__gte=since)
+            product_filter = Q(order__date__gte=since)
+        else:
+            user_filter = Q()
+            employee_filter = Q(order__claim=F('id'), order__status='CM')
+            product_filter = Q()
+
+        top_users = (
+            User.objects
+            .annotate(order_count=Count('customer', filter=user_filter))
+            .filter(order_count__gt=0, is_staff=False)
+            .order_by('-order_count')[:3]
+            .values('username', 'email', 'order_count')
+        )
+
+        top_products = (
+            OrderItem.objects
+            .filter(product_filter)
+            .values('product__name')
+            .annotate(order_count=Count('id'))
+            .order_by('-order_count')[:5]
+        )
+
+        top_employees = (
+            User.objects
+            .filter(is_staff=True)
+            .annotate(completed_claimed_orders=Count(
+                'order',
+                filter=employee_filter
+            ))
+            .filter(completed_claimed_orders__gt=0)
+            .order_by('-completed_claimed_orders')[:3]
+            .values('username', 'email', 'completed_claimed_orders')
+        )
+
+        return JsonResponse({
+            'top_users': list(top_users),
+            'top_products': list(top_products),
+            'top_employees': list(top_employees),
+        })
+
+    except Exception as e:
+        print(f"Error occurred: {e}")
+        return JsonResponse({'error': 'Internal Server Error'}, status=500)

@@ -54,18 +54,24 @@
               <ul class="navbar-nav ms-auto">
                 {% if user.is_authenticated %}
                   {% if user.is_superuser %}
-                  <li class="nav-item">
-                    <a class="d-flex align-items-center" href="/admin">User And Product Management</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="d-flex align-items-center" href="/staff/dashboard">Orders</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="d-flex align-items-center" href="/staff">Dashboard</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="d-flex align-items-center" href="{% url 'logout' %}">Logout</a>
-                  </li>
+                    <li class="nav-item">
+                      <a class="d-flex align-items-center" href="/admin">User And Product Management</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="d-flex align-items-center" href="/staff/dashboard">Orders</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="d-flex align-items-center" href="/staff">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="d-flex align-items-center" href="/staff/analytics">Analytics</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="d-flex align-items-center" href="/messages">Messages</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="d-flex align-items-center" href="{% url 'logout' %}">Logout</a>
+                    </li>
                   {% elif user.is_staff %}
                   <li class="nav-item">
                     <a class="d-flex align-items-center" href="/staff/dashboard">Dashboard</a>
@@ -81,13 +87,16 @@
                     <a class="d-flex align-items-center" href="/shop">Catalog</a>
                   </li>
                   <li class="nav-item">
+                    <a class="d-flex align-items-center" href="/designs">Design</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="d-flex align-items-center" href="/users/profile">Profile</a>
+                  </li>
+                  <li class="nav-item">
                     <a class="d-flex align-items-center" href="/about">About Us</a>
-                    <li class="nav-item">
-                      <a class="d-flex align-items-center" href="/designs">Design</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="d-flex align-items-center" href="/users/profile">Profile</a>
-                    </li>
+                  </li>
+                  <li class="nav-item">
+                    <a class="d-flex align-items-center" href="/contact">Contact Us</a>
                   </li>
                   <li class="nav-item">
                     <a class="d-flex align-items-center" href="{% url 'logout' %}">Logout</a>

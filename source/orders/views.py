@@ -9,7 +9,6 @@ from products.models import Product, Color, Size, Design
 # Create your views here.
 @login_required()
 def cart(request):
-    
     orderSent = False
     
     if request.method == "POST":
@@ -28,7 +27,7 @@ def cart(request):
             item_size = Size.objects.get(id=int(order_item['size']))
             item_design = Design.objects.get(id=int(order_item['design']))
             item_quantity = order_item['quantity']
-            
+
             # create orderItem
             orderItem: OrderItem = OrderItem(\
                 order=order,
@@ -38,6 +37,9 @@ def cart(request):
                 color=item_color,
                 size=item_size
             )
+            
+            item_product.stock -= item_quantity
+            item_product.save()
             
             orderItem.save()
             
