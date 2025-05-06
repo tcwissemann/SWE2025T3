@@ -18,8 +18,15 @@ def isAdminCheck(user: User):
 @login_required
 @user_passes_test(isAdminCheck)
 def admin_message_board(request):
-    messages = ContactMessage.objects.all().order_by('-created_at') # Order by newest first
-    return render(request, 'admin-message-board.html', {'messages': messages})
+    customer_messages = ContactMessage.objects.all().order_by('-created_at')
+
+    if customer_messages.exists():
+        messages.info(request, "There are new customer messages on the board.  ")
+
+    context = {
+        'customer_messages': customer_messages,
+    }
+    return render(request, 'admin-message-board.html', context)
 
 def contact_us(request):
     pass
@@ -36,8 +43,8 @@ def contact_us(request):
             contact_message.user = request.user
             contact_message.name = f"{request.user.first_name} {request.user.last_name}"
             contact_message.save()
-            messages.success(request, 'Your message has been submitted. We will get back to you soon.')
-            return redirect('/users/profile') # Replace with your success URL
+            messages.success(request, 'Your message has been submitted. We will get back to you soon.  ')
+            return redirect('/users/profile')
     else:
         form = ContactForm()
     return render(request, 'contact-us.html', {'form': form})
@@ -52,16 +59,6 @@ def admin_message_detail(request, message_id):
 @user_passes_test(isAdminCheck)
 def admin_message_delete(request, message_id):
     message = get_object_or_404(ContactMessage, id=message_id)
-    if request.method == 'POST':
-        message.delete()
-        messages.success(request, f"Message from {message.user.username if message.user else 'Guest'} deleted successfully.")
-        return redirect('admin-message-board')
-    return render(request, 'admin-message-delete-confirm.html', {'message': message})
-
-@login_required
-@user_passes_test(isAdminCheck)
-def admin_message_delete(request, message_id):
-    message = get_object_or_404(ContactMessage, id=message_id)
     message.delete()
-    messages.success(request, f"Message from {message.user.username if message.user else 'Guest'} deleted successfully.")
-    return redirect('admin_messages') # Redirect back to the message board
+    messages.success(request, f"Message from {message.user.username if message.user else 'Guest'} deleted successfully.  ")
+    return redirect('admin_messages')

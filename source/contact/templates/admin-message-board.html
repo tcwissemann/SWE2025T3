@@ -22,8 +22,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% if messages %}
-                            {% for message in messages %}
+                        {% if customer_messages %}
+                            {% for message in customer_messages %}
                                 <tr>
                                     <td>{{ message.user.username }}</td>
                                     <td>{{ message.subject }}</td>
