@@ -8,10 +8,10 @@
 <link rel="stylesheet" href='{% static "styles/contact.css" %}' type="text/css">
 
 <div class="container my-5">
+    <h1 class="page-title mb-3 w-75 mx-auto rounded">Message Details</h1>
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="card p-4 shadow">
-                <h2 class="mb-4 text-center">Message Detail</h2>
                 <div class="message-details">
                     <p><strong>From:</strong> {{ message.user.username }}</p>
                     <p><strong>Email:</strong> {{ message.user.email }}</p>
