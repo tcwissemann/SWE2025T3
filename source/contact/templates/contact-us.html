@@ -5,29 +5,40 @@
 {% block content %}
 <link rel="stylesheet" href='{% static "styles/website-theme.css" %}' type="text/css">
 <link rel="stylesheet" href='{% static "styles/catalog.css" %}' type="text/css">
+<link rel="stylesheet" href='{% static "styles/login-registration.css" %}' type="text/css">
 <link rel="stylesheet" href="{% static 'styles/contact.css' %}" type="text/css">
 
 <section class="container my-5">
+    <h1 class="page-title mb-3 w-75 mx-auto rounded">Get in Touch</h1>
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card p-4 shadow">
-                <h2 class="mb-4 text-center">Get in Touch</h2>
+            <div class="login-container p-4 shadow">
                 <p class="lead text-center mb-4">We'd love to hear from you! Please fill out the form below or use the contact information provided.</p>
-
-                <form method="post">
+                <form method="post" class="login-form">
                     {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary">Submit Message</button>
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger">{{ field.errors }}</div>
+                            {% endif %}
+                            {% if field.help_text %}
+                                <small class="form-text text-muted">{{ field.help_text }}</small>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary submit-btn">Submit Message</button>
                 </form>
-                <hr class="my-4">
-                <div class="mt-4">
-                    <h2>Other Ways to Connect</h2>
-                    <ul class="list-unstyled">
-                        <li><i class="bi bi-envelope me-2"></i> Email: <a href="mailto:PurpleBubble@management.com"> PurpleBubble@management.com</a></li>
-                        <li><i class="bi bi-telephone me-2"></i> Phone: (512)448-8400</li>
-                        <li><i class="bi bi-geo-alt me-2"></i> Address: 3001 S Congress Ave, Austin, TX 78704</li>
-                    </ul>
-                </div>
+            </div>
+            <hr class="my-4">
+            <h1 class="page-title mb-3 w-75 mx-auto rounded">Connect With Us!</h1>
+            <div class="login-container p-4 shadow mt-4">
+                <ul class="list-unstyled">
+                    <li><i class="bi bi-envelope me-2"></i> Email: <a href="mailto:PurpleBubble@management.com"> PurpleBubble@management.com</a></li>
+                    <li><i class="bi bi-telephone me-2"></i> Phone: (512)448-8400</li>
+                    <li><i class="bi bi-geo-alt me-2"></i> Address: 3001 S Congress Ave, Austin, TX 78704</li>
+                </ul>
             </div>
         </div>
     </div>

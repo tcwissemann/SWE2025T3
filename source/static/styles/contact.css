@@ -146,7 +146,7 @@ textarea.form-control {
 }
 
 .customer-messages-table .actions .btn-info {
-  background-color: #17a2b8; 
+  background-color: #0f5132; 
   color: white;
   padding: 5px 8px;
 }
@@ -159,4 +159,21 @@ textarea.form-control {
 
 .customer-messages-table .actions .ml-2 {
   margin-left: 0.5rem;
+}
+
+.alert-success {
+  color: #0f5132;
+  background-color: #d1e7dd;
+  border-color: #badbcc;
+}
+
+.alert-dismissible {
+  padding-right: 8rem;
+}
+.alert {
+  position: relative;
+  padding: 1rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: .25rem;
 }
